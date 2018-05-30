@@ -29,7 +29,7 @@ git for version control
 heroku for hosting (hosting is optional)
 
 
-## Our choose
+## Our choice
 Option 7: Food Pick-up Ordering
 
 A food ordering experience for a single restaurant. Hungry clients of this fictitious restaurant can visit its website, select one or more dishes and place an order for pick-up. They will receive a notification when their order is ready.
