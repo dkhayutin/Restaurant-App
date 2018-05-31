@@ -70,7 +70,7 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  req.session.userID = generateRandomString();
+  // req.session.userID = generateRandomString();
   res.render("index");
 });
 
@@ -107,8 +107,6 @@ app.post("/items/add", (req, res) => {
   res.status('success');
   console.log(kart);
 });
-
-
 
 //Load checkout page
 app.get("/checkout", (req, res) => {

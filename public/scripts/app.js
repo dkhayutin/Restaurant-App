@@ -19,8 +19,6 @@ $('document').ready(function(){
   });
 });
 
-
-
 //TODO
 // 1. Move counter of items to db
 // 2. Get prices from seed and sum float value (decimals)
