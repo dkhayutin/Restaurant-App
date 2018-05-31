@@ -4,8 +4,6 @@ exports.up = function(knex, Promise) {
 
     .createTable('users', function(table) {
       table.string('id').notNullable().primary();
-      table.string('name');
-      table.string('phone');
     })
 
     .createTable('restaurants', function(table) {
@@ -28,21 +26,7 @@ exports.up = function(knex, Promise) {
     .createTable('karts', function(table) {
       table.increments('id').primary();
       table.string('users_id').references('id').inTable('users');
-    })
-
-    .createTable('orders', function(table) {
-      table.increments('id').primary();
-      table.string('users_id').references('id').inTable('users');
-      table.integer('karts_id').references('id').inTable('karts');
-      table.float('total', 8, 2);
-      table.timestamp('time_order').defaultTo(knex.raw('now()'));
-      table.boolean('payed');
-    })
-
-    .createTable('kartsitems', function(table) {
-      table.increments('id').primary();
       table.integer('dishes_id').references('id').inTable('dishes');
-      table.integer('karts_id').references('id').inTable('karts');
       table.integer('quantity');
     })
   ]);
