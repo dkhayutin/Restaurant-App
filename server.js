@@ -100,7 +100,6 @@ function generateRandomString() {
    return console.log("session number: " + generate);
 }
 
-
 //Item count from AJAX
 app.post("/items/add", (req, res) => {
   var kart = req.body.itemId;
