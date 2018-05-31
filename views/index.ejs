@@ -3,9 +3,7 @@
   <head>
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
-    <link rel="stylesheet" href="/scripts/app.js">
-
+    <link rel="stylesheet" href="styles/layout.css"/>
   </head>
   <body>
   	<nav class="navbar navbar-default">
@@ -22,6 +20,7 @@
   		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
   		<ul class="nav navbar-nav navbar-right">
         <div class="dropdown">
+
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Cart <i class="fas fa-shopping-cart"></i>
   </button>
@@ -37,25 +36,30 @@
   	</div>
   		</div>
   	</nav>
+      <input class='search' type="text" name="search" placeholder="Let's find some Tastiness">
     <div class='images'>
     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X">
-    <img src="https://julialix.files.wordpress.com/2012/05/sushi2.jpg" alt="">
+    <img src="https://qandme.net/images/report97.png" alt="">
     <img src="https://themunchandtattle.files.wordpress.com/2014/12/20140918-jamie-olivers-comfort-food-insanity-burger-david-loftus.jpg" alt="">
+    <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/toasted-bay-scallop-mac-and-cheese-stouffers-nestle-professional-food-service-recipe-540x400.jpg?itok=1-pLu3qr" alt="">
+    <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/red-curry-samosa-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=xCbiTWCh" alt="">
+    <img src="https://www.nestleprofessional.co.uk/sites/g/files/gfb191/f/styles/recipe/public/media/5.1-tuna-sweetcorn-ciabatta-pizza.jpg?itok=mxmWlXA8" alt="">
   </div>
-    <div>
-    <input class='search' type="text" name="search" placeholder="Search..">
-  </div>
-  <form method="POST" action="/login">
-   <input type="text" name="fname" placeholder="Name">
-   <input type="text" name="Phone" placeholder="Phone Number">
-    <button type = "submit">Submit</button>
-  </form>
 
+    <div>
+
+  </div>
+  <form method=“POST” action=“/sms”>
+  <input id=“name” type=“text” name=“fname” placeholder=“Name”>
+  <input id=“phone” type=“text” name=“phone” placeholder=“Phone Number”>
+   <button type = “submit”>Submit</button>
+ </form>
   </body>
   <script
-    src="http://code.jquery.com/jquery-3.2.1.js"
-    integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-    crossorigin="anonymous"></script>
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+  <script src="scripts/app.js"></script>
 
 </html>
