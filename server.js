@@ -14,8 +14,27 @@ const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
 
+const twilio      = require('twilio');
+
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
+
+
+//Twilio SMS set
+var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
+var authToken = '690e49b366be07f27288491d29bdd4b1';   // Your Auth Token from www.twilio.com/console
+var twilioClient = new twilio(accountSid, authToken);
+
+var sendTextMessage = function(customer){
+twilioClient.messages.create({
+    body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
+    to: customer.phone,  // Text this number Ash +14165693279 Rafa +16472033511 Dan +12893394716
+    from: '+16476997021' // From a valid Twilio number
+})
+.then((message) => console.log(message.sid));
+
+};
+
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -42,6 +61,37 @@ app.use("/api/users", usersRoutes(knex));
 app.get("/", (req, res) => {
   res.render("index");
 });
+
+// Home page form submit which triggers twilio
+app.get("/sms", (req, res) => {
+ res.redirect("/")
+});
+
+app.post("/:sms", (req, res) => {
+ var customer = {
+  name: req.body.fname,
+  phone: req.body.phone
+ };
+ sendTextMessage(customer);
+});
+
+//Create a user session on image click
+function generateRandomString() {
+  var generate = "";
+  var randomChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (var i = 0; i <= 6; i ++){
+    generate += randomChar.charAt((Math.floor(Math.random() * randomChar.length)));
+
+  }
+   return console.log("session number: " + generate);
+}
+generateRandomString()
+
+//Load checkout page
+app.get("/checkout", (req, res) => {
+  res.redirect("checkout");
+});
+
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
