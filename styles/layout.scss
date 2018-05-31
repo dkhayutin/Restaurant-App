@@ -47,7 +47,7 @@ input {
 
 /* flip speed goes here */
 .flipper {
-	transition: 0.6s;
+	transition: 1.0s;
 	transform-style: preserve-3d;
   position: relative;
 }
@@ -78,6 +78,11 @@ input {
 
 }
 
+.back p {
+  padding-top: 5px;
+  font-family: 'Indie Flower', cursive;
+}
+
 button {
   border-radius: 25px;
   margin-top: 20px;
@@ -85,4 +90,16 @@ button {
 
 .name {
   margin-top: 30px;
+}
+
+.order {
+   color: white;
+   background: transparent;
+   border: 2px solid #0099CC;
+
+}
+
+.order:hover {
+     background-color: #008CBA;
+     color: white;
 }
