@@ -16,7 +16,6 @@ const knexLogger  = require('knex-logger');
 var cookieSession = require('cookie-session')
 
 const twilio      = require('twilio');
-const data        = require('./db/002-dishes');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -96,7 +95,7 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-appcooki.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/styles", sass({
   src: __dirname + "/styles",
@@ -143,84 +142,74 @@ function generateRandomString() {
   return console.log("session number: " + generate);
 }
 
-//Item count from AJAX
-// app.post("/items/add", (req, res) => {
-//  $(".order").click(function(){
-//   let itemId = $(this).data('id');
-//   //AJAX post
-//    $.post(`/items/add`, {itemId: itemId});
-//   });
 
-app.post("/kart", (req, res) => {
-  // res.status('success');
-  console.log('Enter in post kart');
+// app.post("/kart", (req, res) => {
+//   // res.status('success');
+//   console.log('Enter in post kart');
 
-  if (!req.session.user_id) {
+//   if (!req.session.user_id) {
+//     var userId = generateRandomString();
+//     console.log(req.session.user_id, userId);
 
-    userId = generateRandomString();
+//     knex('users')
+//       .insert([{ id: userId }])
+//       .then(function() {
+//         knex.destroy();
+//       })
+//       .catch(function(error) {
+//         console.error(error)
+//       });
+//   }
 
-    knex('users')
-      .insert([{ id: userId }])
-      .then(function() {
-        knex.destroy();
-      })
-      .catch(function(error) {
-        console.error(error)
-      });
-  }
+//   req.session.user_id = userId;
+//   var dishId = req.body.dishId;
+//   var kartId = req.session.karts_id;
+//   var quant =req.body.quantity;
 
-  req.session.user_id = userId;
-  var itemId = req.body.itemId;
-  var kartId = req.session.karts_id;
-  var quant =req.body.quantity;
-
-    knex('karts')
-      .select('*')
-      .where('users_id', '=', userId)
-      .where('dishes_id', '=', disheId)
-      .then(function(kart) {
-        if (kart.length===0) {
-          knex('karts')
-            .insert([{ users_id: userId, dishes_id: disheId, quantity: quant }])
-            .returning('id')
-            .then(function() {
-              req.session.karts_id = id;
-              knex.destroy();
-            })
-            .catch(function(error) { console.error(error)
-            });
-        } else {
-          quant += kart.quantity;
-            knex('karts')
-                .update([{ quantity: quant }])
-                .where('id', '=', kartId)
-                .where('users_id', '=', userId)
-                .where('dishes_id', '=', disheId)
-                .returning('id')
-                .then(function() {
-                  req.session.karts_id = id;
-                  knex.destroy();
-                })
-                .catch(function(error) { console.error(error)
-                });
-        }
-    })
-      .catch(function(error) {
-        console.error(error)
-      });
+//     knex('karts')
+//       .select('*')
+//       .where('users_id', '=', userId)
+//       .where('dishes_id', '=', dishId)
+//       .then(function(kart) {
+//         if (kart.length===0) {
+//           knex('karts')
+//             .insert([{ users_id: userId, dishes_id: dishId, quantity: quant }])
+//             .returning('id')
+//             .then(function() {
+//               req.session.karts_id = id;
+//               knex.destroy();
+//             })
+//             .catch(function(error) { console.error(error)
+//             });
+//         } else {
+//           quant += kart.quantity;
+//             knex('karts')
+//                 .update([{ quantity: quant }])
+//                 .where('id', '=', kartId)
+//                 .where('users_id', '=', userId)
+//                 .where('dishes_id', '=', disheId)
+//                 .returning('id')
+//                 .then(function() {
+//                   req.session.karts_id = id;
+//                   knex.destroy();
+//                 })
+//                 .catch(function(error) { console.error(error)
+//                 });
+//         }
+//     })
+//       .catch(function(error) {
+//         console.error(error)
+//       });
 
 
-});
+// });
 
 //Item count from AJAX
 app.post("/items/add", (req, res) => {
-  var kart = req.body.itemId;
+  var id = req.body.itemId;
+  knex('dishes').where({id}).returning('*').then(result => console.log('this one', id, result));
   res.status('success');
-  console.log(kart);
-  knex.select().from('karts').where(''){id: kart, users_id: req.session.user_id, dishes_id: kart, quantity: req.body})
-  knex('karts').insert({id: kart, users_id: req.session.user_id, dishes_id: kart, quantity: req.body})
 });
-
 
 
 //Load checkout page
@@ -228,6 +217,30 @@ app.get("/checkout", (req, res) => {
   res.redirect("checkout");
 });
 
+// Delete dish from dishes
+app.post('/delete', (req, res)=>{
+  return new Promise((resolve, err) => {
+    let deleId = req.body.dishId;
+    resolve(deleId);
+  })
+    .then((deleId) => {
+      return knex('karts').where('dishes_id', deleId).del();
+    })
+    .then(() => {
+      return res.redirect('/');
+    });
+});
+
+// Goodbye to user // erase kart and user table
+app.post('/goobye', (req, res)=>{
+
+  knex('users').where('id', req.session.users_id).del();
+  knex('karts').where('id', req.session.karts_id).del();
+
+  req.session.users_id = null;
+  req.session.karts_id = null;
+
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
