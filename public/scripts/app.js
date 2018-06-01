@@ -9,9 +9,6 @@ $(() => {
   });;
 });
 
-
-$('document').ready(function(){
-
  $(".order").click(function(){
   let itemId = $(this).data('id');
   //AJAX post
