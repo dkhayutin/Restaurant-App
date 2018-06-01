@@ -20,19 +20,30 @@ const twilio      = require('twilio');
 const usersRoutes = require("./routes/users");
 
 
-//Twilio SMS set
+//send a Twilio SMS <<<<<<<<
 var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
 var authToken = '690e49b366be07f27288491d29bdd4b1';   // Your Auth Token from www.twilio.com/console
 var twilioClient = new twilio(accountSid, authToken);
 
+// SMS TO CUSTOMER
 var sendTextMessage = function(customer){
-twilioClient.messages.create({
-    body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
-    to: customer.phone,  // Text this number Ash +14165693279 Rafa +16472033511 Dan +12893394716
-    from: '+16476997021' // From a valid Twilio number
-})
-.then((message) => console.log(message.sid));
+  twilioClient.messages.create({
+      body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
+      to: customer.phone,  // Text this number Twilio registered numbers: Ash +14165693279 Rafa +16472033511 Dan +12893394716
+      from: '+16476997021' // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid));
 
+};
+
+// SMS TO OWNER
+var sendOwnerMessage = function(){
+  twilioClient.messages.create({
+      body: 'You have received an order.',
+      to: '++14165693279',  // Text this number Twilio registered numbers: Ash +14165693279
+      from: '+16476997021' // From a valid Twilio number
+  })
+  .then((message) => console.log(message.sid));
 };
 
 
@@ -59,23 +70,26 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
+  // req.session.userID = generateRandomString();
   res.render("index");
 });
 
-// Home page form submit which triggers twilio
+// Home page form submit which triggers twilio <<<<<<
+
 app.get("/sms", (req, res) => {
  res.redirect("/")
 });
 
-app.post("/:sms", (req, res) => {
+app.post("/sms", (req, res) => {
  var customer = {
   name: req.body.fname,
   phone: req.body.phone
  };
  sendTextMessage(customer);
+ sendOwnerMessage();
 });
 
-//Create a user session on image click
+//Create a 6 digit random Number <<<<
 function generateRandomString() {
   var generate = "";
   var randomChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -85,7 +99,13 @@ function generateRandomString() {
   }
    return console.log("session number: " + generate);
 }
-generateRandomString()
+
+//Item count from AJAX
+app.post("/items/add", (req, res) => {
+  var kart = req.body.itemId;
+  res.status('success');
+  console.log(kart);
+});
 
 //Load checkout page
 app.get("/checkout", (req, res) => {
