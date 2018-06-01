@@ -80,6 +80,7 @@ input {
 
 .back p {
   padding-top: 5px;
+  padding-right: 5px;
   font-family: 'Indie Flower', cursive;
 }
 
@@ -96,10 +97,21 @@ button {
    color: white;
    background: transparent;
    border: 2px solid #0099CC;
-
 }
 
 .order:hover {
      background-color: #008CBA;
      color: white;
+}
+
+.small {
+  height: 100px;
+  width: 100px;
+  padding-left: 5px;
+}
+
+.menu-info {
+  margin-top: 2px;
+  padding-left: 5px;
+  font-size: small;
 }

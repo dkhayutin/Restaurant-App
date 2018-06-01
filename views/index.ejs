@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <link rel="stylesheet" href="styles/layout.css"/>
+    <link rel="stylesheet" href="styles/navbar.css"/>
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
 
   </head>
@@ -17,25 +18,38 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-  			<a href="#" class="navbar-brand">Food Express</a>
-  		</div>
-  		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-  		<ul class="nav navbar-nav navbar-right">
-        <div class="dropdown">
+        <img class="logo" src="/images/logo.png">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+      <div class="dropdown">
 
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Cart <i class="fas fa-shopping-cart"></i>
-  </button>
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Cart <i class="fas fa-shopping-cart"></i>
+</button>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <table class='checkout-cart'>
+    <td>
+      <img class="small" src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X" alt="">
+      </td>
+      <td>
+      <div class="menu-info">
+        <p>Item: Cheeseburger</p>
+        <p>Quantity: 2</p>
+        <p>Price: $19.99</p>
+      </div>
+      </td>
+  </table>
 
-  </div>
+
 </div>
-  <div class="">
-      <li><a href="#">Checkout</a></li>
+</div>
+<div class="">
+    <li><a href="#">Checkout</a></li>
+</div>
+    </ul>
   </div>
+  		</div>
 
-  		</ul>
-  	</div>
   		</div>
   	</nav>
       <input class='search' type="text" name="search" placeholder="Let's find some Tastiness">
@@ -45,14 +59,13 @@
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
     	<div class="flipper">
     		<div class="front">
-    			<img data-id="1" src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X">
-
+    			<img  src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X">
     		</div>
     		<div class="back">
     			<p>Crisp skin-on chicken, seven grain dirty rice, sautéed peppers, onions, avocado, feta.</p>
           <input class="input-group-field" type="number" name="quantity" value="0">
           <div>
-          <button class='order' type="button" name="button">Order</button>
+          <button data-id="1" class='order' type="button" name="button">Order</button>
         </div>
         </div>
     	</div>
@@ -63,13 +76,13 @@
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
       <div class="flipper">
         <div class="front">
-    <img data-id="2" src="https://qandme.net/images/report97.png" alt="">
+    <img  src="https://qandme.net/images/report97.png" alt="">
         </div>
         <div class="back">
           <p>Hand-rolled prawn, mango + avocado sushi. Topped with our homemade sriracha mayonnaise for spice, sprinkle of black sesame + unagi maple sauce for sweetness</p>
           <input class="input-group-field" type="number" name="quantity" value="0">
           <div>
-          <button class='order' type="button" name="button">Order</button>
+          <button data-id="2" class='order' type="button" name="button">Order</button>
         </div>
         </div>
       </div>
@@ -80,13 +93,13 @@
         <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
         	<div class="flipper">
         		<div class="front">
-        			<img data-id="3" src="https://themunchandtattle.files.wordpress.com/2014/12/20140918-jamie-olivers-comfort-food-insanity-burger-david-loftus.jpg" alt="">
+        			<img src="https://themunchandtattle.files.wordpress.com/2014/12/20140918-jamie-olivers-comfort-food-insanity-burger-david-loftus.jpg" alt="">
         		</div>
         		<div class="back">
         			<p>Cured bacon and avocado, aged cheddar, banana peppers, tomatoes, onion, lettuce, sriracha mayo, on a freshly baked brioche bun</p>
               <input class="input-group-field" type="number" name="quantity" value="0">
               <div>
-              <button class='order' type="button" name="button">Order</button>
+              <button data-id="3" class='order' type="button" name="button">Order</button>
             </div>
         		</div>
         	</div>
@@ -100,13 +113,13 @@
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
       <div class="flipper">
         <div class="front">
-          <img data-id="4" src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/red-curry-samosa-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=xCbiTWCh" alt="">
+          <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/red-curry-samosa-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=xCbiTWCh" alt="">
         </div>
         <div class="back">
           <p>Aromatic curry leaves and baghara spices bring a very special flavour to this four-way vegetable mix.</p>
           <input class="input-group-field" type="number" name="quantity" value="0">
           <div>
-          <button class='order' type="button" name="button">Order</button>
+          <button data-id="4" class='order' type="button" name="button">Order</button>
         </div>
         </div>
       </div>
@@ -116,12 +129,12 @@
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
       <div class="flipper">
         <div class="front">
-    <img data-id="5" src="https://www.nestleprofessional.co.uk/sites/g/files/gfb191/f/styles/recipe/public/media/5.1-tuna-sweetcorn-ciabatta-pizza.jpg?itok=mxmWlXA8" alt="">		</div>
+    <img src="https://www.nestleprofessional.co.uk/sites/g/files/gfb191/f/styles/recipe/public/media/5.1-tuna-sweetcorn-ciabatta-pizza.jpg?itok=mxmWlXA8" alt="">		</div>
         <div class="back">
           <p>Beefy Bolognese sauce, smoked ham, pepperoni, seasoned ground beef, spicy Italian sausage and pizza mozzarella.</p>
           <input class="input-group-field" type="number" name="quantity" value="0">
           <div>
-          <button class='order' type="button" name="button">Order</button>
+          <button data-id="5" class='order' type="button" name="button">Order</button>
         </div>
         </div>
       </div>
@@ -132,13 +145,13 @@
     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
       <div class="flipper">
         <div class="front">
-          <img data-id="6" src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/old-fashioned-chicken-noodle-soup-made-with-minors-chicken-base-food-service-recipe-540x400.jpg?itok=UuFwEFlh" alt="">
+          <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/old-fashioned-chicken-noodle-soup-made-with-minors-chicken-base-food-service-recipe-540x400.jpg?itok=UuFwEFlh" alt="">
         </div>
         <div class="back">
           <p>A rich broth made with sherry and a blend of sweet yellow and white onions. Baked with a toasted crouton and then topped with pizza mozzarella, cheddar, feta and parmesan.</p>
           <input class="input-group-field" type="number" name="quantity" value="0">
           <div>
-          <button class='order' type="button" name="button">Order</button>
+          <button data-id="6" class='order' type="button" name="button">Order</button>
         </div>
         </div>
       </div>
@@ -146,11 +159,11 @@
   </div>
 </div>
 </div>
-  <div class="name">
-    <form method=“POST” action=“/sms”>
-    <input id=“name” type=“text” name=“fname” placeholder='Name'>
-    <input id=“phone” type=“text” name=“phone” placeholder='Phone Number'>
-     <button type = “submit”>Submit</button>
+  <div class='name'>
+    <form method='POST' action='/sms'>
+    <input id='name' type='text' name='fname' placeholder='Name'>
+    <input id='phone' type='text' name='phone' placeholder='Phone Number'>
+     <button type='submit'>Submit</button>
    </form>
   </div>
 
