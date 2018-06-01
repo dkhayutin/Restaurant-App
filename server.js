@@ -20,6 +20,40 @@ const data        = require('./db/002-dishes');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
+const dishesRoutes = require("./routes/dishes");
+
+app.use(cookieSession({
+  name: 'session',
+  keys: ['temporary'],
+}))
+
+//send a Twilio SMS <<<<<<<<
+var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
+var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
+var twilioClient = new twilio(accountSid, authToken);
+
+
+
+// SMS TO CUSTOMER Twilio
+var sendTextMessage = function(customer) {
+  twilioClient.messages.create({
+      body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
+      to: customer.phone, // Text this number Twilio registered numbers: Ash +14165693279 Rafa +16472033511 Dan +12893394716
+      from: '+16476997021' // From a valid Twilio number
+    })
+    .then((message) => console.log(message.sid));
+
+};
+// SMS TO OWNER Twilio
+var sendOwnerMessage = function() {
+  twilioClient.messages.create({
+      body: 'You have received an order.',
+      to: '++14165693279', // Text this number Twilio registered numbers: Ash +14165693279
+      from: '+16476997021' // From a valid Twilio number
+    })
+    .then((message) => console.log(message.sid));
+};
+
 
 // Set Cookie-session
 app.use(cookieSession({
@@ -63,6 +97,7 @@ app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
 appcooki.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -73,40 +108,39 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
+app.use("/api/dishes", dishesRoutes(knex));
+
 
 // Home page
 app.get("/", (req, res) => {
-  req.session.user_id = generateRandomString(); // TODO: DEFINE USER ID
+  req.session.user_id = generateRandomString(); // CREATED SESSION
   res.render("index");
 });
 
 // Home page form submit which triggers twilio <<<<<<
 app.get("/sms", (req, res) => {
- res.redirect("/")
+  res.redirect("/")
 });
 
 app.post("/sms", (req, res) => {
- var customer = {
-  name: req.body.fname,
-  phone: req.body.phone
- };
- sendTextMessage(customer);
- sendOwnerMessage();
-
-  delete req.session.user_id;
-  delete kart_id
-  res.redirect("/")
+  var customer = {
+    name: req.body.fname,
+    phone: req.body.phone
+  };
+  sendTextMessage(customer);
+  sendOwnerMessage();
 });
 
 //Create a 6 digit random Number <<<<
 function generateRandomString() {
   var generate = "";
   var randomChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i = 0; i <= 6; i ++){
+
+  for (var i = 0; i <= 6; i++) {
     generate += randomChar.charAt((Math.floor(Math.random() * randomChar.length)));
 
   }
-   return console.log("session number: " + generate);
+  return console.log("session number: " + generate);
 }
 
 //Item count from AJAX
@@ -117,7 +151,6 @@ function generateRandomString() {
 //    $.post(`/items/add`, {itemId: itemId});
 //   });
 
-//
 app.post("/kart", (req, res) => {
   // res.status('success');
   console.log('Enter in post kart');
@@ -175,6 +208,7 @@ app.post("/kart", (req, res) => {
       .catch(function(error) {
         console.error(error)
       });
+
 
 });
 
