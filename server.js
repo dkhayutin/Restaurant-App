@@ -13,12 +13,19 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+var cookieSession = require('cookie-session')
 
 const twilio      = require('twilio');
+const data        = require('./db/002-dishes');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 
+// Set Cookie-session
+app.use(cookieSession({
+  name: 'session',
+  keys: ['temporary'],
+}))
 
 //send a Twilio SMS <<<<<<<<
 var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
@@ -33,7 +40,6 @@ var sendTextMessage = function(customer){
       from: '+16476997021' // From a valid Twilio number
   })
   .then((message) => console.log(message.sid));
-
 };
 
 // SMS TO OWNER
@@ -56,7 +62,7 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+appcooki.use(bodyParser.urlencoded({ extended: true }));
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -70,12 +76,11 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  // req.session.userID = generateRandomString();
+  req.session.user_id = generateRandomString(); // TODO: DEFINE USER ID
   res.render("index");
 });
 
 // Home page form submit which triggers twilio <<<<<<
-
 app.get("/sms", (req, res) => {
  res.redirect("/")
 });
@@ -87,6 +92,10 @@ app.post("/sms", (req, res) => {
  };
  sendTextMessage(customer);
  sendOwnerMessage();
+
+  delete req.session.user_id;
+  delete kart_id
+  res.redirect("/")
 });
 
 //Create a 6 digit random Number <<<<
@@ -101,11 +110,84 @@ function generateRandomString() {
 }
 
 //Item count from AJAX
+// app.post("/items/add", (req, res) => {
+//  $(".order").click(function(){
+//   let itemId = $(this).data('id');
+//   //AJAX post
+//    $.post(`/items/add`, {itemId: itemId});
+//   });
+
+//
+app.post("/kart", (req, res) => {
+  // res.status('success');
+  console.log('Enter in post kart');
+
+  if (!req.session.user_id) {
+
+    userId = generateRandomString();
+
+    knex('users')
+      .insert([{ id: userId }])
+      .then(function() {
+        knex.destroy();
+      })
+      .catch(function(error) {
+        console.error(error)
+      });
+  }
+
+  req.session.user_id = userId;
+  var itemId = req.body.itemId;
+  var kartId = req.session.karts_id;
+  var quant =req.body.quantity;
+
+    knex('karts')
+      .select('*')
+      .where('users_id', '=', userId)
+      .where('dishes_id', '=', disheId)
+      .then(function(kart) {
+        if (kart.length===0) {
+          knex('karts')
+            .insert([{ users_id: userId, dishes_id: disheId, quantity: quant }])
+            .returning('id')
+            .then(function() {
+              req.session.karts_id = id;
+              knex.destroy();
+            })
+            .catch(function(error) { console.error(error)
+            });
+        } else {
+          quant += kart.quantity;
+            knex('karts')
+                .update([{ quantity: quant }])
+                .where('id', '=', kartId)
+                .where('users_id', '=', userId)
+                .where('dishes_id', '=', disheId)
+                .returning('id')
+                .then(function() {
+                  req.session.karts_id = id;
+                  knex.destroy();
+                })
+                .catch(function(error) { console.error(error)
+                });
+        }
+    })
+      .catch(function(error) {
+        console.error(error)
+      });
+
+});
+
+//Item count from AJAX
 app.post("/items/add", (req, res) => {
   var kart = req.body.itemId;
   res.status('success');
   console.log(kart);
+  knex.select().from('karts').where(''){id: kart, users_id: req.session.user_id, dishes_id: kart, quantity: req.body})
+  knex('karts').insert({id: kart, users_id: req.session.user_id, dishes_id: kart, quantity: req.body})
 });
+
+
 
 //Load checkout page
 app.get("/checkout", (req, res) => {
