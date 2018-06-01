@@ -2,20 +2,18 @@
 
 require('dotenv').config();
 
-const PORT = process.env.PORT || 8080;
-const ENV = process.env.ENV || "development";
-const express = require("express");
-const bodyParser = require("body-parser");
-const sass = require("node-sass-middleware");
-const app = express();
-var cookieSession = require("cookie-session")
+const PORT        = process.env.PORT || 8080;
+const ENV         = process.env.ENV || "development";
+const express     = require("express");
+const bodyParser  = require("body-parser");
+const sass        = require("node-sass-middleware");
+const app         = express();
 
-const knexConfig = require("./knexfile");
-const knex = require("knex")(knexConfig[ENV]);
-const morgan = require('morgan');
-const knexLogger = require('knex-logger');
-
-const twilio = require('twilio');
+const knexConfig  = require("./knexfile");
+const knex        = require("knex")(knexConfig[ENV]);
+const morgan      = require('morgan');
+const knexLogger  = require('knex-logger');
+var cookieSession = require('cookie-session')
 
 const twilio      = require('twilio');
 
@@ -33,7 +31,9 @@ var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from 
 var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
 var twilioClient = new twilio(accountSid, authToken);
 
-// SMS TO CUSTOMER
+
+
+// SMS TO CUSTOMER Twilio
 var sendTextMessage = function(customer) {
   twilioClient.messages.create({
       body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
@@ -43,8 +43,7 @@ var sendTextMessage = function(customer) {
     .then((message) => console.log(message.sid));
 
 };
-
-// SMS TO OWNER
+// SMS TO OWNER Twilio
 var sendOwnerMessage = function() {
   twilioClient.messages.create({
       body: 'You have received an order.',
@@ -55,6 +54,11 @@ var sendOwnerMessage = function() {
 };
 
 
+// Set Cookie-session
+app.use(cookieSession({
+  name: 'session',
+  keys: ['temporary'],
+}))
 
 //send a Twilio SMS <<<<<<<<
 var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
@@ -69,7 +73,6 @@ var sendTextMessage = function(customer){
       from: '+16476997021' // From a valid Twilio number
   })
   .then((message) => console.log(message.sid));
-
 };
 
 // SMS TO OWNER
@@ -92,9 +95,8 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use("/styles", sass({
   src: __dirname + "/styles",
   dest: __dirname + "/public/styles",
@@ -105,22 +107,17 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
-
 app.use("/api/dishes", dishesRoutes(knex));
 
 
 // Home page
 app.get("/", (req, res) => {
-
-  req.session.user_id = generateRandomString();
-
+  req.session.user_id = generateRandomString(); // CREATED SESSION
   res.render("index");
 });
 
 // Home page form submit which triggers twilio <<<<<<
-
 app.get("/sms", (req, res) => {
-
   res.redirect("/")
 });
 
@@ -131,7 +128,6 @@ app.post("/sms", (req, res) => {
   };
   sendTextMessage(customer);
   sendOwnerMessage();
-
 });
 
 //Create a 6 digit random Number <<<<
@@ -146,78 +142,105 @@ function generateRandomString() {
   return console.log("session number: " + generate);
 }
 
+
+// app.post("/kart", (req, res) => {
+//   // res.status('success');
+//   console.log('Enter in post kart');
+
+//   if (!req.session.user_id) {
+//     var userId = generateRandomString();
+//     console.log(req.session.user_id, userId);
+
+//     knex('users')
+//       .insert([{ id: userId }])
+//       .then(function() {
+//         knex.destroy();
+//       })
+//       .catch(function(error) {
+//         console.error(error)
+//       });
+//   }
+
+//   req.session.user_id = userId;
+//   var dishId = req.body.dishId;
+//   var kartId = req.session.karts_id;
+//   var quant =req.body.quantity;
+
+//     knex('karts')
+//       .select('*')
+//       .where('users_id', '=', userId)
+//       .where('dishes_id', '=', dishId)
+//       .then(function(kart) {
+//         if (kart.length===0) {
+//           knex('karts')
+//             .insert([{ users_id: userId, dishes_id: dishId, quantity: quant }])
+//             .returning('id')
+//             .then(function() {
+//               req.session.karts_id = id;
+//               knex.destroy();
+//             })
+//             .catch(function(error) { console.error(error)
+//             });
+//         } else {
+//           quant += kart.quantity;
+//             knex('karts')
+//                 .update([{ quantity: quant }])
+//                 .where('id', '=', kartId)
+//                 .where('users_id', '=', userId)
+//                 .where('dishes_id', '=', disheId)
+//                 .returning('id')
+//                 .then(function() {
+//                   req.session.karts_id = id;
+//                   knex.destroy();
+//                 })
+//                 .catch(function(error) { console.error(error)
+//                 });
+//         }
+//     })
+//       .catch(function(error) {
+//         console.error(error)
+//       });
+
+
+// });
+
 //Item count from AJAX
-// app.post("/items/add", (req, res) => {
-//  $(".order").click(function(){
-//   let itemId = $(this).data('id');
-//   //AJAX post
-//    $.post(`/items/add`, {itemId: itemId});
-//   });
-
-app.post("/kart", (req, res) => {
-  // res.status('success');
-  console.log('Enter in post kart');
-
-  if (!req.session.user_id) {
-
-    userId = generateRandomString();
-
-    knex('users')
-      .insert([{ id: userId }])
-      .then(function() {
-        knex.destroy();
-      })
-      .catch(function(error) {
-        console.error(error)
-      });
-  }
-
-  req.session.user_id = userId;
-  var itemId = req.body.itemId;
-  var kartId = req.session.karts_id;
-  var quant =req.body.quantity;
-
-    knex('karts')
-      .select('*')
-      .where('users_id', '=', userId)
-      .where('dishes_id', '=', disheId)
-      .then(function(kart) {
-        if (kart.length===0) {
-          knex('karts')
-            .insert([{ users_id: userId, dishes_id: disheId, quantity: quant }])
-            .returning('id')
-            .then(function() {
-              req.session.karts_id = id;
-              knex.destroy();
-            })
-            .catch(function(error) { console.error(error)
-            });
-        } else {
-          quant += kart.quantity;
-            knex('karts')
-                .update([{ quantity: quant }])
-                .where('id', '=', kartId)
-                .where('users_id', '=', userId)
-                .where('dishes_id', '=', disheId)
-                .returning('id')
-                .then(function() {
-                  req.session.karts_id = id;
-                  knex.destroy();
-                })
-                .catch(function(error) { console.error(error)
-                });
-        }
-    })
-      .catch(function(error) {
-        console.error(error)
-      });
+app.post("/items/add", (req, res) => {
+  var id = req.body.itemId;
+  knex('dishes').where({id}).returning('*').then(result => console.log('this one', id, result));
+  res.status('success');
 });
+
 
 //Load checkout page
 app.get("/checkout", (req, res) => {
   res.redirect("checkout");
 });
 
+// Delete dish from dishes
+app.post('/delete', (req, res)=>{
+  return new Promise((resolve, err) => {
+    let deleId = req.body.dishId;
+    resolve(deleId);
+  })
+    .then((deleId) => {
+      return knex('karts').where('dishes_id', deleId).del();
+    })
+    .then(() => {
+      return res.redirect('/');
+    });
+});
+
+// Goodbye to user // erase kart and user table
+app.post('/goobye', (req, res)=>{
+
+  knex('users').where('id', req.session.users_id).del();
+  knex('karts').where('id', req.session.karts_id).del();
+
+  req.session.users_id = null;
+  req.session.karts_id = null;
+
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
