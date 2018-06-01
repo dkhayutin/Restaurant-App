@@ -1,26 +1,14 @@
-$(() => {
-  // loadALL();
-  // $.ajax({
-  //   method: "GET",
-  //   url: "/api/users"
-  // }).done((dishes) => {
-  //   for(user of dishes) {
-  //     $("<div>").text(user.name).appendTo($("body"));
-  //   }
-  // });;
-});
-
-function loadALL(restaurant_id) {
-  $.ajax({
-    method: "GET",
-    url: "/api/dishes"
-  }).done((dishes) => {
-    for (let i = 0; i < dishes.length; i++) {
-      console.log(dishes[i].name);
-      $("<div>").text(dishes[i].name).appendTo($("body"));
-    }
-  });
-}
+// $(() => {
+//   // loadALL();
+//   // $.ajax({
+//   //   method: "GET",
+//   //   url: "/api/users"
+//   // }).done((dishes) => {
+//   //   for(user of dishes) {
+//   //     $("<div>").text(user.name).appendTo($("body"));
+//   //   }
+//   // });;
+// });
 
 
 $('document').ready(function(){
@@ -28,8 +16,7 @@ $('document').ready(function(){
  $(".order").click(function(){
   let itemId = $(this).data('id');
   //AJAX post
-   // $.post(`/kart`, {itemId: itemId});
-   $.post('/kart');
+   $.post(`/items/add`, {itemId: itemId});
   });
 });
 
