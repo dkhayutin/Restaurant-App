@@ -1,26 +1,32 @@
-img {
+img{
   // padding-left: 20px;
   // padding-top: 10px;
   // margin-top: 2em;
    height: 200px;
   // margin-left: 5%
+  border-radius: 40px;
+  border: 2px solid #ddd;
 }
+
 
 .images {
   display: block;
 }
 
-.search {
+input {
+  text-align: center;
+  margin-bottom: 20px;
 
+}
+
+.search-bar {
+  text-align: center;
 }
 
 
 form {
-  padding-left: 30%;
   padding-top: 20px;
-  padding-bottom: 10px;
-  margin-bottom: 10rem;
-
+  text-align: center;
 }
 
 input {
@@ -42,7 +48,7 @@ input {
 
 .flip-container, .front, .back {
 	width: 286px;
-	height: 200px;
+	height: 300px;
  }
 
 /* flip speed goes here */
@@ -71,30 +77,33 @@ input {
 .back {
 	transform: rotateY(180deg);
   text-align: center;
-  background: blue;
+  background: #FFFFFE;
   position: absolute;
   top: 0;
   left: 0;
+  border-radius: 40px;
+  border: 2px solid #ddd;
+
 
 }
 
 .back p {
-  padding-top: 5px;
+  padding-top: 10px;
+  padding-left: 5px;
   padding-right: 5px;
   font-family: 'Indie Flower', cursive;
 }
 
 button {
   border-radius: 25px;
-  margin-top: 20px;
 }
 
 .name {
   margin-top: 30px;
+  
 }
 
 .order {
-   color: white;
    background: transparent;
    border: 2px solid #0099CC;
 }
@@ -108,10 +117,19 @@ button {
   height: 100px;
   width: 100px;
   padding-left: 5px;
+  border: none;
 }
 
 .menu-info {
   margin-top: 2px;
   padding-left: 5px;
   font-size: small;
+}
+
+.row {
+  padding-bottom: 25px;
+}
+
+.image-container {
+  display: inline;
 }
