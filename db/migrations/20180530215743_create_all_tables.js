@@ -2,10 +2,6 @@ exports.up = function(knex, Promise) {
   return Promise.all([
     knex.schema
 
-    .createTable('users', function(table) {
-      table.string('id').notNullable().primary();
-    })
-
     .createTable('restaurants', function(table) {
       table.increments('id').primary();
       table.string('name').notNullable();
@@ -25,9 +21,9 @@ exports.up = function(knex, Promise) {
 
     .createTable('karts', function(table) {
       table.increments('id').primary();
-      table.string('users_id').references('id').inTable('users');
-      table.integer('dishes_id').references('id').inTable('dishes');
+      table.string('users_id').notNullable();
       table.integer('quantity');
+      table.integer('dishes_id').references('id').inTable('dishes');
     })
   ]);
 }
@@ -38,6 +34,5 @@ exports.down = function(knex, Promise) {
     .dropTable('karts')
     .dropTable('dishes')
     .dropTable('restaurants')
-    .dropTable('users')
   ])
 };
