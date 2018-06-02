@@ -2,20 +2,20 @@
 
 require('dotenv').config();
 
-const PORT        = process.env.PORT || 8080;
-const ENV         = process.env.ENV || "development";
-const express     = require("express");
-const bodyParser  = require("body-parser");
-const sass        = require("node-sass-middleware");
-const app         = express();
+const PORT = process.env.PORT || 8080;
+const ENV = process.env.ENV || "development";
+const express = require("express");
+const bodyParser = require("body-parser");
+const sass = require("node-sass-middleware");
+const app = express();
 
-const knexConfig  = require("./knexfile");
-const knex        = require("knex")(knexConfig[ENV]);
-const morgan      = require('morgan');
-const knexLogger  = require('knex-logger');
+const knexConfig = require("./knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const morgan = require('morgan');
+const knexLogger = require('knex-logger');
 var cookieSession = require('cookie-session')
 
-const twilio      = require('twilio');
+const twilio = require('twilio');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -62,27 +62,35 @@ app.use(cookieSession({
 
 //send a Twilio SMS <<<<<<<<
 var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
-var authToken = '690e49b366be07f27288491d29bdd4b1';   // Your Auth Token from www.twilio.com/console
+var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
 var twilioClient = new twilio(accountSid, authToken);
 
+
+var messageSMS = function(phone,message) {
+  twilioClient.messages.create({
+    body:message, to:phone, from:'+16476997021'
+  })
+    .then((message) => console.log(message.sid));
+}
+
 // SMS TO CUSTOMER
-var sendTextMessage = function(customer){
+var sendTextMessage = function(customer) {
   twilioClient.messages.create({
       body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
-      to: customer.phone,  // Text this number Twilio registered numbers: Ash +14165693279 Rafa +16472033511 Dan +12893394716
+      to: customer.phone, // Text this number Twilio registered numbers: Ash +14165693279 Rafa +16472033511 Dan +12893394716
       from: '+16476997021' // From a valid Twilio number
-  })
-  .then((message) => console.log(message.sid));
+    })
+    .then((message) => console.log(message.sid));
 };
 
 // SMS TO OWNER
-var sendOwnerMessage = function(){
+var sendOwnerMessage = function() {
   twilioClient.messages.create({
       body: 'You have received an order.',
-      to: '++14165693279',  // Text this number Twilio registered numbers: Ash +14165693279
+      to: '++14165693279', // Text this number Twilio registered numbers: Ash +14165693279
       from: '+16476997021' // From a valid Twilio number
-  })
-  .then((message) => console.log(message.sid));
+    })
+    .then((message) => console.log(message.sid));
 };
 
 
@@ -95,7 +103,9 @@ app.use(morgan('dev'));
 app.use(knexLogger(knex));
 
 app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 app.use("/styles", sass({
   src: __dirname + "/styles",
@@ -112,7 +122,24 @@ app.use("/api/dishes", dishesRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  req.session.user_id = generateRandomString(); // CREATED SESSION
+
+  var userId = generateRandomString();
+  req.session.user_id = userId;
+
+  knex('karts')
+    .insert([{
+      users_id: userId
+    }])
+    // .returning('id')
+    // .then(function() {
+      // console.log('Rafael');
+      // req.session.karts_id = id;
+      // knex.destroy();
+    // })
+    .catch(function(error) {
+      console.error(error)
+    });
+
   res.render("index");
 });
 
@@ -139,76 +166,79 @@ function generateRandomString() {
     generate += randomChar.charAt((Math.floor(Math.random() * randomChar.length)));
 
   }
-  return console.log("session number: " + generate);
+  return generate;
 }
 
+app.post("/kart", (req, res) => {
+console.log('Rafael');
+  // res.status('success');
 
-// app.post("/kart", (req, res) => {
-//   // res.status('success');
-//   console.log('Enter in post kart');
+  var dishId = Number(req.body.itemId);
+  var userId = req.session.user_id;
+  var kartId = req.session.karts_id;
+  var quant = req.body.quantity;
+  console.log('qweqweqweqweqweqweqweqweqwe',dishId);
 
-//   if (!req.session.user_id) {
-//     var userId = generateRandomString();
-//     console.log(req.session.user_id, userId);
-
-//     knex('users')
-//       .insert([{ id: userId }])
-//       .then(function() {
-//         knex.destroy();
-//       })
-//       .catch(function(error) {
-//         console.error(error)
-//       });
-//   }
-
-//   req.session.user_id = userId;
-//   var dishId = req.body.dishId;
-//   var kartId = req.session.karts_id;
-//   var quant =req.body.quantity;
-
-//     knex('karts')
-//       .select('*')
-//       .where('users_id', '=', userId)
-//       .where('dishes_id', '=', dishId)
-//       .then(function(kart) {
-//         if (kart.length===0) {
-//           knex('karts')
-//             .insert([{ users_id: userId, dishes_id: dishId, quantity: quant }])
-//             .returning('id')
-//             .then(function() {
-//               req.session.karts_id = id;
-//               knex.destroy();
-//             })
-//             .catch(function(error) { console.error(error)
-//             });
-//         } else {
-//           quant += kart.quantity;
-//             knex('karts')
-//                 .update([{ quantity: quant }])
-//                 .where('id', '=', kartId)
-//                 .where('users_id', '=', userId)
-//                 .where('dishes_id', '=', disheId)
-//                 .returning('id')
-//                 .then(function() {
-//                   req.session.karts_id = id;
-//                   knex.destroy();
-//                 })
-//                 .catch(function(error) { console.error(error)
-//                 });
-//         }
-//     })
-//       .catch(function(error) {
-//         console.error(error)
-//       });
-
-
-// });
+  knex('karts')
+    .select('*')
+    .where('id', '=', kartId)
+    .where('users_id', '=', userId)
+    .where('dishes_id', '=', dishId)
+    .then(function(kart) {
+      if (kart.length === 0) {
+        knex('karts')
+          .insert([{
+            users_id: userId,
+            dishes_id: dishId,
+            quantity: quant
+          }])
+          .returning('id')
+          .then(function() {
+            req.session.karts_id = id;
+            knex.destroy();
+          })
+          .catch(function(error) {
+            console.error(error)
+          });
+      } else {
+        quant += kart.quantity;
+        knex('karts')
+          .update([{
+            quantity: quant
+          }])
+          // .where('id', '=', kartId)
+          .where('users_id', '=', userId)
+          .where('dishes_id', '=', disheId)
+          .then(function() {
+            knex.destroy();
+          })
+          .catch(function(error) {
+            console.error(error)
+          });
+      }
+    })
+    .catch(function(error) {
+      console.error(error)
+    });
+});
 
 //Item count from AJAX
 app.post("/items/add", (req, res) => {
-  var id = req.body.itemId;
-  knex('dishes').where({id}).returning('*').then(result => console.log('this one', id, result));
-  res.status('success');
+
+  knex.select('*')
+    .from('karts')
+    .join('dishes', 'dishes.id', 'kart.dishes_id')
+    .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
+    .where('karts.users_id', '=', req.session.users_id)
+    .then(function(rows) {
+      res.json(rows);
+      knex.destroy();
+    })
+    .catch(function(error) {
+      console.error(error)
+    });
+    res.status('success');
+
 });
 
 
@@ -218,11 +248,11 @@ app.get("/checkout", (req, res) => {
 });
 
 // Delete dish from dishes
-app.post('/delete', (req, res)=>{
+app.post('/delete', (req, res) => {
   return new Promise((resolve, err) => {
-    let deleId = req.body.dishId;
-    resolve(deleId);
-  })
+      let deleId = req.body.dishId;
+      resolve(deleId);
+    })
     .then((deleId) => {
       return knex('karts').where('dishes_id', deleId).del();
     })
@@ -232,7 +262,7 @@ app.post('/delete', (req, res)=>{
 });
 
 // Goodbye to user // erase kart and user table
-app.post('/goobye', (req, res)=>{
+app.post('/goobye', (req, res) => {
 
   knex('users').where('id', req.session.users_id).del();
   knex('karts').where('id', req.session.karts_id).del();
