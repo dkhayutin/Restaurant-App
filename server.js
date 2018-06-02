@@ -20,6 +20,7 @@ const twilio = require('twilio');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
 const dishesRoutes = require("./routes/dishes");
+const restaurantRoutes = require("./routes/restaurants");
 
 app.use(cookieSession({
   name: 'session',
@@ -118,6 +119,7 @@ app.use(express.static("public"));
 // Mount all resource routes
 app.use("/api/users", usersRoutes(knex));
 app.use("/api/dishes", dishesRoutes(knex));
+app.use("/api/restaurants", restaurantRoutes(knex));
 
 
 // Home page
@@ -130,12 +132,11 @@ app.get("/", (req, res) => {
     .insert([{
       users_id: userId
     }])
-    // .returning('id')
-    // .then(function() {
-      // console.log('Rafael');
-      // req.session.karts_id = id;
-      // knex.destroy();
-    // })
+    .returning('id')
+    .then(function() {
+            req.session.karts_id = id;
+            knex.destroy();
+          })
     .catch(function(error) {
       console.error(error)
     });
@@ -174,14 +175,16 @@ console.log('Rafael');
   // res.status('success');
 
   var dishId = Number(req.body.itemId);
+  var dishId = 1;
   var userId = req.session.user_id;
   var kartId = req.session.karts_id;
   var quant = req.body.quantity;
-  console.log('qweqweqweqweqweqweqweqweqwe',dishId);
+  var quant = 1;
+  console.log(userId,kartId,dishId);
 
   knex('karts')
     .select('*')
-    .where('id', '=', kartId)
+    // .where('id', '=', kartId)
     .where('users_id', '=', userId)
     .where('dishes_id', '=', dishId)
     .then(function(kart) {
@@ -194,7 +197,7 @@ console.log('Rafael');
           }])
           .returning('id')
           .then(function() {
-            req.session.karts_id = id;
+            // req.session.karts_id = id;
             knex.destroy();
           })
           .catch(function(error) {

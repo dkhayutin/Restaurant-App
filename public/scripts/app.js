@@ -1,29 +1,167 @@
-// $(() => {
+function addToKart() {
+  // event.preventDefault();
 
-//   // loadALL();
-//   // $.ajax({
-//   //   method: "GET",
-//   //   url: "/api/users"
-//   // }).done((dishes) => {
-//   //   for(user of dishes) {
-//   //     $("<div>").text(user.name).appendTo($("body"));
-//   //   }
-//   // });;
-// });
+  //   $.ajax({
+  //     url: "/kart",
+  //     method: "POST",
+  //     data: $(this).serialize(),
+  //     success: function(body) {
+  //       $.ajax({
+  //         url: "/kart",
+  //         method: "GET",
+  //         success: function(data) {
+  //           data.forEach((tweet) => {
+  //             createKart(dishes);
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
+  console.log("Hello World 2");
+
+    // $.ajax({
+    //         url: "/restaurants",
+    //         type: "POST",
+    //         data: $(this).serialize(),
+    //         dataType: "json",
+    //         success: function() {
+    //             console.log("success!")
+    //         },
+    //         error: function() {
+    //             console.log("error", arguments[2])
+    //         }
+    //     });
+
+}
 
 
-// Get Item ID's and post to server for db comparason
-$('document').ready(function(){
 
- $(".order").click(function(){
-  let itemId = $(this).data('id');
-  //AJAX post
-   $.post(`/items/add`, {itemId: itemId}, function(data){
-    console.log(data);
-    createKart(data)
-   });
+//  $(".kart").click(function(){
+//   let itemId = $(this).data('id');
+
+//   $.ajax({
+//     method: "POST",
+//     url: "/kart"
+//   }).done((kart) => {
+//     for(items of kart) {
+//       $("<div>").text(items.name).appendTo($("body"));
+//     }
+//   });;
+
+// Read of control the new tweeters
+$(document).ready(function() {
+  // $(".kart").click(addToKart);
+$('#kart').on('submit', addToKart);
+$("button").click(function() {
+    console.log("hello world");
   });
 });
+
+// $(() => {
+//   $.ajax({
+//     method: "GET",
+//     url: "/api/users"
+//   }).done((users) => {
+//     for(user of users) {
+//       $("<div>").text(user.name).appendTo($("body"));
+//     }
+//   });;
+// });
+
+// $(() => {
+//   $.ajax({
+//     method: "GET",
+//     url: "/api/users"
+//   }).done((users) => {
+//     for(user of users) {
+//       $("<div>").text(user.name).appendTo($("body"));
+//     }
+//   });;
+// });
+
+// $(() => {
+//   /*
+//   * items categories
+//   */
+//   $.get('/api/food_type')
+//     .done(function(data) {
+//       let sortData = data.map(function(ele) {
+//         return ele.type;
+//       }).sort();
+
+//       for(let type of sortData){
+//         let child = `<a href=""><li>${type}</li></a>`;
+//         $(child).appendTo('#menu_categories ul');
+
+//         let typeChild = `<dev id="${type}"></dev>`;
+//         $(typeChild).appendTo('.menu_items');
+//       }
+
+// $(() => {
+//   /*
+//   * items categories
+//   */
+//   $.get('/api/food_type')
+//     .done(function(data) {
+//       let sortData = data.map(function(ele) {
+//         return ele.type;
+//       }).sort();
+
+//       for(let type of sortData){
+//         let child = `<a href=""><li>${type}</li></a>`;
+//         $(child).appendTo('#menu_categories ul');
+
+//         let typeChild = `<dev id="${type}"></dev>`;
+//         $(typeChild).appendTo('.menu_items');
+//       }
+
+// $('document').ready(function(){
+
+//  $(".order").click(function(){
+//   let itemId = $(this).data('id');
+//   //AJAX post
+//    $.post(`/items/add`, {itemId: itemId}, function(data){
+//     console.log(data);
+//     createKart(data)
+//    });
+//   });
+
+//  $(".kart").click(function(){
+//   let itemId = $(this).data('id');
+
+//   $.ajax({
+//     method: "POST",
+//     url: "/kart"
+//   }).done((kart) => {
+//     for(items of kart) {
+//       $("<div>").text(items.name).appendTo($("body"));
+//     }
+//   });;
+
+   // $.post('/kart', {itemId: itemId}, function(data){
+   //  console.log(data);
+   //  createKart(data)
+  //  });
+  // });
+
+
+
+
+
+
+
+// router.post('/register', (req, res) => {
+//   if (!req.body.email || !req.body.password) {
+//     // If the registration form was submitted without a value for email or
+//     // password, then set an error message and redirect.
+//     templateVars = {
+//       message: 'Email and password are required',
+//       login: 'Login',
+//       register: 'Register'
+//     }
+//     res.render('error', templateVars);
+//     return;
+//   }
 
 // Append Item to kart
 

@@ -1,70 +1,50 @@
 "use strict";
 
-require('dotenv').config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const sass = require("node-sass-middleware");
-const app = express();
-const router = express.Router();
+const express = require('express');
+const router  = express.Router();
 
-const knexConfig = require('./knexfile');
-const knex = require('knex')(knexConfig[ENV]);
-const morgan = require('morgan');
-const knexLogger = require('knex-logger');
+module.exports = function(knex) {
 
-//twillio send sms message
-var twilio = require('twilio');
+  router.post("/kart", (req, res) => {
+    console.log('Rafael');
+    // res.status('success');
 
-app.use(morgan('dev'));
-app.use(knexLogger(knex));
+    var dishId = Number(req.body.itemId);
+    var userId = req.session.user_id;
+    var kartId = req.session.karts_id;
+    var quant = req.body.quantity;
+    console.log('qweqweqweqweqweqweqweqweqwe', dishId);
 
-var twilioClient = new twilio('AC12bd3680ab7bcacdea48e1728c8788e2', '690e49b366be07f27288491d29bdd4b1');
-
-var sendTextMessage = function(customer) {
-  twilioClient.messages.create({
-      body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
-      to: customer.phone, // Text this number Ash +14165693279 Rafa +16472033511 Dan +12893394716
-      from: '+16476997021' // From a valid Twilio number
-    })
-    .then((message) => console.log(message.sid));
-
-};
-
-
-module.exports = (knex) => {
-
-    router.get("/", (req, res) => {
-      knex
-        .select('*')
-        .from('dishes')
-        .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
-        .then(function(rows) {
-          res.json(rows);
-          knex.destroy();
-        })
-        .catch(function(error) {
-          console.error(error)
-        });
-    });
-
-
-
-    router.post("/add/:item", (req, res) => {
-
-        var userId = req.session.users_id;
-        var disheId = something from req.;
-        var kartId = req.session.karts_id;
-        var quant = something from req.;
-
-
-        if (!req.session.users_id) {
-          userId = generateUserId();
-          req.session.user_id = userId;
-
-          knex('users')
+    knex('karts')
+      .select('*')
+      .where('id', '=', kartId)
+      .where('users_id', '=', userId)
+      .where('dishes_id', '=', dishId)
+      .then(function(kart) {
+        if (kart.length === 0) {
+          knex('karts')
             .insert([{
-              id: userId
+              users_id: userId,
+              dishes_id: dishId,
+              quantity: quant
             }])
+            .returning('id')
+            .then(function() {
+              req.session.karts_id = id;
+              knex.destroy();
+            })
+            .catch(function(error) {
+              console.error(error)
+            });
+        } else {
+          quant += kart.quantity;
+          knex('karts')
+            .update([{
+              quantity: quant
+            }])
+            // .where('id', '=', kartId)
+            .where('users_id', '=', userId)
+            .where('dishes_id', '=', disheId)
             .then(function() {
               knex.destroy();
             })
@@ -72,28 +52,11 @@ module.exports = (knex) => {
               console.error(error)
             });
         }
-
-        knex('karts')
-          .insert([{
-            users_id: userId,
-            dishes_id: disheId,
-            quantity: quant
-          }])
-          .returning('id')
-          .then(function() {
-            req.session.karts_id = id;
-            knex.destroy();
-          })
-          .catch(function(error) {
-            console.error(error)
-          });
-      }
-
-      router.post("/order", (req, res) => {
-
-
-
+      })
+      .catch(function(error) {
+        console.error(error)
       });
-      return router;
+  });
 
-    }
+  return router;
+}
