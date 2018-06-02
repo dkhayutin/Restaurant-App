@@ -39,6 +39,19 @@ $('document').ready(function(){
     }
   });
   });
+
+  $(".order").click(function(){
+  $.ajax({
+    method: "GET",
+    url: "/api/dishes"
+  }).done((dishes) => {
+    for(dish of dishes) {
+      console.log(dish);
+      $("<div>").html(dish.name).appendTo($("body"));
+    }
+  });
+  });
+
 });
 
 // $('document').ready(function(){
