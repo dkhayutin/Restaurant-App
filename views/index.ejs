@@ -22,9 +22,9 @@
             </td>
             <td class="menu">
               <div class="menu-info">
-                <p >Item: Cheeseburger</p>
-                <p>Quantity: 2</p>
-                <p>Price: $19.99</p>
+                <p class='name'>Item: Cheeseburger</p>
+                <p class='qty'>Quantity: 2</p>
+                <p class='price'>Price: $19.99</p>
               </div>
             </td>
           </tr>
@@ -34,7 +34,24 @@
                 <input id='name' type='text' name='fname' placeholder='Name'>
                 <input id='phone' type='text' name='phone' placeholder='Phone Number'>
                 <button type='submit'>Place Order</button>
+                <p>
+                  <p>
+                <form action="/charge" method="POST">
+              <script
+                src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                data-key="pk_test_LklcPkZ3Mra61WCY47f5uKPI"
+                data-amount="999"
+                data-name="Demo Site"
+                data-description="Example charge"
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                data-locale="auto"
+                data-currency="cad">
+              </script>
+            </form>
               </form>
+
+
+
             </td>
           </tr>
         </table>
@@ -66,7 +83,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
@@ -171,7 +187,7 @@
                     <p>$ 25.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="4" class='order' type="button" name="button">Add To Cart</button>
+                      <button data-id="7" class='order' type="button" name="button">Add To Cart</button>
                     </div>
                   </div>
                 </div>
@@ -188,7 +204,7 @@
                     <p>$ 11.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="5" class='order' type="button" name="button">Add To Cart</button>
+                      <button data-id="8" class='order' type="button" name="button">Add To Cart</button>
                     </div>
                   </div>
                 </div>
@@ -205,7 +221,7 @@
                     <p class='price'>$ 33.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="6" class='order' type="button" name="button">Add To Cart</button>
+                      <button data-id="9" class='order' type="button" name="button">Add To Cart</button>
                     </div>
                   </div>
                 </div>
@@ -223,7 +239,7 @@
                     <p>Tomatoes, peppers, onions, jalapeños, three cheeses, beef chilli and Guacamole (190 Cals)</p>
                     <p>$ 11.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
-                    <button data-id="1" class='order' type="button" name="button">Add To Cart</button>
+                    <button data-id="10" class='order' type="button" name="button">Add To Cart</button>
                   </div>
                 </div>
               </div>
@@ -240,7 +256,7 @@
                     <p>$ 14.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="2" class='order' type="button" name="button">Add To Cart</button>
+                      <button data-id="11" class='order' type="button" name="button">Add To Cart</button>
                     </div>
                   </div>
                 </div>
@@ -258,7 +274,7 @@
                     <p>$ 15.99</p>
                     <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="3" class='order' type="button" name="button">Add To Cart</button>
+                      <button data-id="12" class='order' type="button" name="button">Add To Cart</button>
                     </div>
                   </div>
                 </div>
