@@ -35,18 +35,3 @@
      align-items: center;
      width: 100%; }
  }
-
- .carousel {
-   background: #666;
-   position: relative;
-   z-index: 0;
-
-   &-controls,
-   &-indicators {
-     z-index: 666;
-   }
-
-   &-inner {
-     z-index: 1
-   }
- }
