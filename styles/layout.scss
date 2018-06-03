@@ -31,7 +31,7 @@ form {
 
 input {
   width: 200px;
-  padding-right: 20px;
+
 }
 
 .flip-container {
@@ -114,6 +114,9 @@ button {
   background: #30a2e4;
   border: 2px solid #0099CC;
   color: #fff;
+  margin-bottom: 5px;
+  width: 120px;
+  border-radius: 5px;
 
 }
 
@@ -145,7 +148,7 @@ button {
 
 .carousel {
   background: #666;
-  position: relative;
+  //position: relative;
   z-index: 0;
 
   &-controls,
