@@ -27,6 +27,9 @@ app.use(cookieSession({
   keys: ['temporary'],
 }))
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 //send a Twilio SMS <<<<<<<<
 var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from www.twilio.com/console
 var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
@@ -128,18 +131,13 @@ app.get("/", (req, res) => {
   var userId = generateRandomString();
   req.session.user_id = userId;
 
-  knex('karts')
-    .insert([{
-      users_id: userId
-    }])
-    .returning('id')
-    .then(function() {
-            req.session.karts_id = id;
-            knex.destroy();
-          })
-    .catch(function(error) {
-      console.error(error)
-    });
+  // knex('karts')
+  //   .insert([{
+  //     users_id: userId
+  //   }])
+  //   .catch(function(error) {
+  //     console.error(error)
+  //   });
 
   res.render("index");
 });
@@ -174,17 +172,13 @@ app.post("/kart", (req, res) => {
 console.log('Rafael');
   // res.status('success');
 
-  var dishId = Number(req.body.itemId);
-  var dishId = 1;
+  var dishId = Number(req.body.disheId);
   var userId = req.session.user_id;
-  var kartId = req.session.karts_id;
-  var quant = req.body.quantity;
-  var quant = 1;
-  console.log(userId,kartId,dishId);
+  var quant = Number(req.body.quantity);
+  console.log('objects body',req.body);
 
   knex('karts')
     .select('*')
-    // .where('id', '=', kartId)
     .where('users_id', '=', userId)
     .where('dishes_id', '=', dishId)
     .then(function(kart) {
@@ -195,23 +189,14 @@ console.log('Rafael');
             dishes_id: dishId,
             quantity: quant
           }])
-          .returning('id')
-          .then(function() {
-            // req.session.karts_id = id;
-            knex.destroy();
-          })
           .catch(function(error) {
             console.error(error)
           });
       } else {
-        quant += kart.quantity;
         knex('karts')
-          .update([{
-            quantity: quant
-          }])
-          // .where('id', '=', kartId)
           .where('users_id', '=', userId)
-          .where('dishes_id', '=', disheId)
+          .where('dishes_id', '=', dishId)
+          .update('quantity', quant)
           .then(function() {
             knex.destroy();
           })
@@ -224,6 +209,7 @@ console.log('Rafael');
       console.error(error)
     });
 });
+
 
 //Item count from AJAX
 app.post("/items/add", (req, res) => {
@@ -271,7 +257,7 @@ app.post('/goobye', (req, res) => {
   knex('karts').where('id', req.session.karts_id).del();
 
   req.session.users_id = null;
-  req.session.karts_id = null;
+  // req.session.karts_id = null;
 
 });
 

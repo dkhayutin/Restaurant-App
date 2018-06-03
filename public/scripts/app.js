@@ -1,24 +1,52 @@
+// require('dotenv').config();
+
+
+// const express = require("express");
+// const bodyParser = require("body-parser");
+// const sass = require("node-sass-middleware");
+// const app = express();
+
+// const knexConfig = require("./knexfile");
+// // const knex = require("knex")(knexConfig[ENV]);
+// const morgan = require('morgan');
+// const knexLogger = require('knex-logger');
+// var cookieSession = require('cookie-session')
+
+// const twilio = require('twilio');
+
+// // Seperated Routes for each Resource
+// const usersRoutes = require("./routes/users");
+// const dishesRoutes = require("./routes/dishes");
+// const restaurantRoutes = require("./routes/restaurants");
+
+
+// app.use(bodyParser.json())
+// app.use(bodyParser.urlencoded({ extended: true }))
+
+
 function addToKart() {
-  // event.preventDefault();
+//   // event.preventDefault();
 
-  //   $.ajax({
-  //     url: "/kart",
-  //     method: "POST",
-  //     data: $(this).serialize(),
-  //     success: function(body) {
-  //       $.ajax({
-  //         url: "/kart",
-  //         method: "GET",
-  //         success: function(data) {
-  //           data.forEach((tweet) => {
-  //             createKart(dishes);
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
-  console.log("Hello World 2");
-
+//   //   $.ajax({
+//   //     url: "/kart",
+//   //     method: "POST",
+//   //     data: $(this).serialize(),
+//   //     success: function(body) {
+//   //       $.ajax({
+//   //         url: "/kart",
+//   //         method: "GET",
+//   //         success: function(data) {
+//   //           data.forEach((tweet) => {
+//   //             createKart(dishes);
+//   //         });
+//   //       }
+//   //     });
+//   //   }
+//   // });
+// app.post('*' , (res, req) => {
+//   console.log('body: ', req.body);
+//   console.log('query: ', req.query);
+// })
     // $.ajax({
     //         url: "/restaurants",
     //         type: "POST",
