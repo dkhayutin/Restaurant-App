@@ -22,9 +22,9 @@
             </td>
             <td class="menu">
               <div class="menu-info">
-                <p class='name'>Item: Cheeseburger</p>
-                <p class='qty'>Quantity: 2</p>
-                <p class='price'>Price: $19.99</p>
+                <p >Item: Cheeseburger</p>
+                <p>Quantity: 2</p>
+                <p>Price: $19.99</p>
               </div>
             </td>
           </tr>
@@ -33,7 +33,7 @@
               <form method='POST' action='/sms'>
                 <input id='name' type='text' name='fname' placeholder='Name'>
                 <input id='phone' type='text' name='phone' placeholder='Phone Number'>
-                <button type='submit'>Place Order</button>
+                <input class="order-button" type="submit" name="" value="Pay By Cash">
                 <p>
                   <p>
                 <form action="/charge" method="POST">
@@ -49,9 +49,6 @@
               </script>
             </form>
               </form>
-
-
-
             </td>
           </tr>
         </table>
@@ -71,31 +68,38 @@
           <div class="row">
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X">
                   </div>
                   <div class="back">
-                    <p>Crisp skin-on chicken, seven grain dirty rice, sautéed peppers, onions, avocado, feta.</p>
-                    <p>$ 14.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
-                    <button data-id="1" class='order' type="button" name="button">Add To Cart</button>
+                      <p>Crisp skin-on chicken, seven grain dirty rice, sautéed peppers, onions, avocado, feta.</p>
+                      <p>$ 14.99</p>
+                      <input class="input-group-field" type="number" name="quantity" value="0">
+                      <input class="order" type="submit" name="" value="Add to Order">
+                      <input type="hidden" id="disheId" name="disheId" value="1">
+                      </form>
                   </div>
                 </div>
               </div>
+
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://qandme.net/images/report97.png" alt="">
                   </div>
                   <div class="back">
-                    <p>Hand-rolled prawn, mango + avocado sushi. Topped with our homemade sriracha mayonnaise for spice, sprinkle of black sesame + unagi maple sauce for sweetness</p>
-                    <p>$ 21.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="2" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Hand-rolled prawn, mango + avocado sushi. Topped with our homemade sriracha mayonnaise for spice, sprinkle of black sesame + unagi maple sauce for sweetness</p>
+                        <p>$ 21.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="2">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -104,16 +108,19 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://themunchandtattle.files.wordpress.com/2014/12/20140918-jamie-olivers-comfort-food-insanity-burger-david-loftus.jpg" alt="">
                   </div>
                   <div class="back">
-                    <p>Cured bacon and avocado, aged cheddar, banana peppers, tomatoes, onion, lettuce, sriracha mayo, on a freshly baked brioche bun</p>
-                    <p>$ 5.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="3" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Cured bacon and avocado, aged cheddar, banana peppers, tomatoes, onion, lettuce, sriracha mayo, on a freshly baked brioche bun</p>
+                        <p>$ 5.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="3">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -124,16 +131,19 @@
           <div class="row">
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/red-curry-samosa-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=xCbiTWCh" alt="">
                   </div>
                   <div class="back">
-                    <p>Aromatic curry leaves and baghara spices bring a very special flavour to this four-way vegetable mix.</p>
-                    <p>$ 41.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="4" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Aromatic curry leaves and baghara spices bring a very special flavour to this four-way vegetable mix.</p>
+                        <p>$ 41.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -141,15 +151,18 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.co.uk/sites/g/files/gfb191/f/styles/recipe/public/media/5.1-tuna-sweetcorn-ciabatta-pizza.jpg?itok=mxmWlXA8" alt=""> </div>
                   <div class="back">
-                    <p>Beefy Bolognese sauce, smoked ham, pepperoni, seasoned ground beef, spicy Italian sausage and pizza mozzarella.</p>
-                    <p>$ 12.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="5" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Beefy Bolognese sauce, smoked ham, pepperoni, seasoned ground beef, spicy Italian sausage and pizza mozzarella.</p>
+                        <p>$ 12.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -157,16 +170,19 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/old-fashioned-chicken-noodle-soup-made-with-minors-chicken-base-food-service-recipe-540x400.jpg?itok=UuFwEFlh" alt="">
                   </div>
                   <div class="back">
-                    <p>A rich broth made with sherry and a blend of sweet yellow and white onions. Baked with a toasted crouton and then topped with pizza mozzarella, cheddar, feta and parmesan.</p>
-                    <p class='price'>$ 16.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="6" class='order' type="button" name="button">Add To Cart</button>
+                        <p>A rich broth made with sherry and a blend of sweet yellow and white onions. Baked with a toasted crouton and then topped with pizza mozzarella, cheddar, feta and parmesan.</p>
+                        <p class='price'>$ 16.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -178,16 +194,19 @@
           <div class="row">
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/salmon-plus-side-dish-assortment-minors-stouffers-nestle-pro-food-service-recipe-540x400.jpg?itok=lyzQvIaT" alt="">
                   </div>
                   <div class="back">
-                    <p>Grilled Atlantic salmon, seven grain rice, charredtomatoes, avocado, smoky garlic sauce, jalapeño butter.</p>
-                    <p>$ 25.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="7" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Grilled Atlantic salmon, seven grain rice, charredtomatoes, avocado, smoky garlic sauce, jalapeño butter.</p>
+                        <p>$ 25.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -195,16 +214,19 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/spicy-tofu-skin-salad-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=EP8RBdNl" alt="">
                   </div>
                   <div class="back">
-                    <p>Tofu with shredded cabbage, carrots, mints and basil. Roasted ground peanut mixed with special dressing.</p>
-                    <p>$ 11.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="8" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Tofu with shredded cabbage, carrots, mints and basil. Roasted ground peanut mixed with special dressing.</p>
+                        <p>$ 11.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -212,16 +234,19 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/beefy-roasted-steak-potatoes-gluten-free-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=652ZCHdN" alt="">
                   </div>
                   <div class="back">
-                    <p>Tender New York striploin. Served alongside roasted sweet potatoes, sautéed onions with chopped and spiced pecans,</p>
-                    <p class='price'>$ 33.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="9" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Tender New York striploin. Served alongside roasted sweet potatoes, sautéed onions with chopped and spiced pecans,</p>
+                        <p class='price'>$ 33.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -231,32 +256,19 @@
           <div class="row">
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                   <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/nachos-with-chef-mate-que-bueno-nacho-cheese-sauce-nestle-pro-food-service-recipe-540x400.jpg?itok=Te7jHSJF" alt="">
                   </div>
                   <div class="back">
-                    <p>Tomatoes, peppers, onions, jalapeños, three cheeses, beef chilli and Guacamole (190 Cals)</p>
-                    <p>$ 11.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
-                    <button data-id="10" class='order' type="button" name="button">Add To Cart</button>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="col-4">
-              <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-                <div class="flipper">
-                  <div class="front">
-                    <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/quinoa-salad-spicy-pumpkin-vinaigrette-libbys-nestle-professional-food-service-recipe-540x400.jpg?itok=unP9tICk" alt="">
-                  </div>
-                  <div class="back">
-                    <p>Green beans, red onion, edamame, dried cranberries, shredded beets & feta tossed in a sweet onion vinaigrette.</p>
-                    <p>$ 14.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="11" class='order' type="button" name="button">Add To Cart</button>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <p>Tomatoes, peppers, onions, jalapeños, three cheeses, beef chilli and Guacamole (190 Cals)</p>
+                        <p>$ 11.99</p>
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -265,16 +277,40 @@
             </div>
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
+                <div class="flipper">
+                  <div class="front">
+                    <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/quinoa-salad-spicy-pumpkin-vinaigrette-libbys-nestle-professional-food-service-recipe-540x400.jpg?itok=unP9tICk" alt="">
+                  </div>
+                  <div class="back">
+                    <div>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <p>Green beans, red onion, edamame, dried cranberries, shredded beets & feta tossed in a sweet onion vinaigrette.</p>
+                        <p>$ 14.99</p>
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-4">
+              <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+                <form id="kart" action="/kart" method="post">
                 <div class="flipper">
                   <div class="front">
                     <img src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/young-jackfruit-stir-fry-maggi-nestle-professional-food-service-recipe-540x400.jpg?itok=36eTdMJb" alt="">
                   </div>
                   <div class="back">
-                    <p>Asian vegetables sautéed in a soy ginger black bean sauce on chow mein noodles. Topped w/ green onions & peanuts.</p>
-                    <p>$ 15.99</p>
-                    <input class="input-group-field" type="number" name="quantity" value="0">
                     <div>
-                      <button data-id="12" class='order' type="button" name="button">Add To Cart</button>
+                        <p>Asian vegetables sautéed in a soy ginger black bean sauce on chow mein noodles. Topped w/ green onions & peanuts.</p>
+                        <p>$ 15.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        </form>
                     </div>
                   </div>
                 </div>
@@ -293,6 +329,8 @@
         <span class="sr-only">Next</span>
       </a>
     </div>
+    <body>
+
     <!-- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
