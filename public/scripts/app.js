@@ -50,37 +50,44 @@ function createDish(dishes) {
 
 
 // function createKart(obj) {
-  $(() => {
+$(() => {
   $.ajax({
     method: "GET",
-    url: "/",
-    success: function(dishes) {
+    url: "kart",
+    }).done((dishes) => {
+    // success: function(dishes) {
+      console.log(dishes);
       for (let i = 0; i < dishes.length; i++) {
-        // var $dish = (`
-        //   <tr class="table">
-        //     <td class="image-container">
-        //       <img class="small" src="${dishes.photo}" alt="">
-        //     </td>
-        //     <td class="menu">
-        //       <div class="menu-info">
-        //         <p >${dishes.name}</p>
-        //         <p>Quantity: ${dishes.quantity}</p>
-        //         <p>Total: ${dishes.price * dishes.quantity}</p>
-        //       </div>
-        //     </td>
-        //   </tr>
-        // `);
+        var $dish = (`
+          <tr class="table">
+            <td class="image-container">
+              <img class="small" src="${dishes.photo}" alt="">
+            </td>
+            <td class="menu">
+              <div class="menu-info">
+                <p >${dishes.name}</p>
+                <p>Quantity: ${dishes.quantity}</p>
+                <p>Total: ${dishes.price * dishes.quantity}</p>
+              </div>
+            </td>
+          </tr>
+        `);
         // var $dish = (`${dishes.length}`);
+        // console.log(dish);
         $("<div>").append($dish).appendTo($(".checkout-cart"));
-}
-        // $(".checkout-cart").prepend($dish);
+      }
+      // $(".checkout-cart").prepend($dish);
 
       // return $dish;
 
-    }
-  });
+    })
+  })
 
-    });
+
+[{"id":1,"users_id":"1upbFzM","quantity":234,"dishes_id":1,
+"name":"Pizza Pizza","photo":"httpX","description":null,
+"time_to_done":null,"type":null,"price":null,"restaurants_id":1,
+"phone":"6472033511"}]
 
 // }
 
@@ -95,53 +102,52 @@ function createDish(dishes) {
 //   });;
 // });
 
-function createElement(obj) {
+// function createElement(obj) {
 
-  const $dish = '';
-  $dish.append(`
-                <div class="col-4">
-              <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-                <form id="kart" action="/kart" method="post">
-                <div class="flipper">
-                  <div class="front">
-                    <img src=${escape(obj.photo)}>
-                  </div>
-                  <div class="back">
-                      <p>${escape(obj.description)}</p>
-                      <p>${escape(obj.price)}</p>
-                      <input class="input-group-field" type="number" name="quantity" value="0">
-                      <input class="order" type="submit" name="" value="Add to Order">
-                      <input type="hidden" id="disheId" name="disheId" value=${escape(obj.id)}>
-                      </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-        `);
-  return $dish;
-}
-
-
+//   const $dish = '';
+//   $dish.append(`
+//                 <div class="col-4">
+//               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+//                 <form id="kart" action="/kart" method="post">
+//                 <div class="flipper">
+//                   <div class="front">
+//                     <img src=${escape(obj.photo)}>
+//                   </div>
+//                   <div class="back">
+//                       <p>${escape(obj.description)}</p>
+//                       <p>${escape(obj.price)}</p>
+//                       <input class="input-group-field" type="number" name="quantity" value="0">
+//                       <input class="order" type="submit" name="" value="Add to Order">
+//                       <input type="hidden" id="disheId" name="disheId" value=${escape(obj.id)}>
+//                       </form>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//         `);
+//   return $dish;
+// }
 
 
-// Function to rendenize the tweets
-function renderDishes(dishes) {
-  dishes.forEach((dish) => {
-    $(".carousel-item active").prepend(createElement(dish));
-  });
-}
 
-function loadDishes(dishes) {
-  $.ajax()({
-    url: "/main",
-    method: "GET",
-    success: function(dishes) {
-      renderDishes(dishes);
-    }
-  });
-}
+// // Function to rendenize the tweets
+// function renderDishes(dishes) {
+//   dishes.forEach((dish) => {
+//     $(".carousel-item active").prepend(createElement(dish));
+//   });
+// }
 
-// // Read of control the new tweeters
+// function loadDishes(dishes) {
+//   $.ajax()({
+//     url: "/main",
+//     method: "GET",
+//     success: function(dishes) {
+//       renderDishes(dishes);
+// //     }
+// //   });
+// // }
+
+// // // Read of control the new tweeters
 $(document).ready(function() {
 
 
@@ -152,4 +158,5 @@ $(document).ready(function() {
   //   $("button").click(function() {
   //     console.log("hello world");
   //   });
+
 });

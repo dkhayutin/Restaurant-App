@@ -112,12 +112,7 @@ app.use("./routes", routes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-
-  var userId = generateRandomString();
-  req.session.user_id = userId;
-
-  console.log(req.session.user_id);
-
+  req.session.user_id = generateRandomString();
   res.render("index");
 });
 
@@ -147,24 +142,38 @@ function generateRandomString() {
   return generate;
 }
 
-// app.get("/kart", (req, res) => {
+app.get("/kart", (req, res) => {
 
+  var userId = req.session.user_id;
+  knex('karts')
+    .select("*")
+    .join('dishes', 'dishes.id', 'karts.dishes_id')
+    .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
+    .where('users_id', '=' , userId)
+    .where('quantity', '!=', 0)
+    .then(function(dishes) {
+      console.log(dishes);
+      res.json(dishes);
+    });
 
-// });
+});
 
 
 app.post("/kart", (req, res) => {
+  console.log('received POST to /kart');
+
+
+  var userId = req.session.user_id;
 
   var dishId = Number(req.body.disheId);
-  var userId = req.session.user_id;
   var quant = Number(req.body.quantity);
 
-  knex('karts')
+  knex
     .select('*')
+    .from('karts')
     .where('users_id', '=', userId)
     .where('dishes_id', '=', dishId)
     .then(function(kart) {
-      if (kart.length === 0) {
         knex('karts')
           .insert([{
             users_id: userId,
@@ -174,19 +183,6 @@ app.post("/kart", (req, res) => {
           .catch(function(error) {
             console.error(error)
           });
-      } else {
-        knex('karts')
-          .where('users_id', '=', userId)
-          .where('dishes_id', '=', dishId)
-          .update('quantity', quant)
-          .then(function() {
-            knex.destroy();
-          })
-          .catch(function(error) {
-            console.error(error)
-          });
-      }
-
       })
     // })
     .catch(function(error) {
