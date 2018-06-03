@@ -13,6 +13,10 @@
   width: 350px
 }
 
+.dropdown-menu.show {
+  margin-right: -50px;
+}
+
 #navbarDropdown {
   position: absolute;
   right: 0;
@@ -33,5 +37,6 @@
      display: flex;
      flex-direction: column;
      align-items: center;
-     width: 100%; }
+     width: 100%;
+     margin-top: -30px; }
  }
