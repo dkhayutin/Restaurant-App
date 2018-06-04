@@ -149,7 +149,7 @@ app.get("/kart", (req, res) => {
     .select("*")
     .join('dishes', 'dishes.id', 'karts.dishes_id')
     .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
-    .where('users_id', '=' , userId)
+    .where('users_id', '=', userId)
     .where('quantity', '!=', 0)
     .then(function(dishes) {
       console.log(dishes);
@@ -174,6 +174,8 @@ app.post("/kart", (req, res) => {
     .where('users_id', '=', userId)
     .where('dishes_id', '=', dishId)
     .then(function(kart) {
+
+      if (kart.length === 0) {
         knex('karts')
           .insert([{
             users_id: userId,
@@ -183,13 +185,32 @@ app.post("/kart", (req, res) => {
           .catch(function(error) {
             console.error(error)
           });
-      })
+
+      } else {
+        knex('karts')
+          .where('users_id', '=', userId)
+          .where('dishes_id', '=', dishId)
+          .update('quantity', quant)
+          .then(function() {
+            knex.destroy();
+          })
+          .catch(function(error) {
+            console.error(error)
+          });
+      }
+
+    })
     // })
     .catch(function(error) {
       console.error(error)
     });
 
-return;
+  knex('karts')
+  .where('users_id', '=', userId)
+  .where('dishes_id', '=', dishId)
+  .where('quantity', '=', 0).del();
+
+  return;
   // return $kartItem;
 
 });
