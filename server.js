@@ -15,7 +15,7 @@ const morgan = require('morgan');
 const knexLogger = require('knex-logger');
 var cookieSession = require('cookie-session')
 
-const twilio = require('twilio');
+var twilio = require('twilio');
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/users");
@@ -38,26 +38,8 @@ var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from 
 var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
 var twilioClient = new twilio(accountSid, authToken);
 
-// SMS TO CUSTOMER Twilio
-var sendTextMessage = function(customer) {
-  twilioClient.messages.create({
-      body: 'Your order has been accepted. Estimated time for pick up is 30 mins.',
-      to: customer.phone, // Text this number Twilio registered numbers: Ash +14165693279 Rafa +16472033511 Dan +12893394716
-      from: '+16476997021' // From a valid Twilio number
-    })
-    .then((message) => console.log(message.sid));
-};
 
-// SMS TO OWNER Twilio
-var sendOwnerMessage = function() {
-  twilioClient.messages.create({
-      body: 'You have received an order.',
-      to: '++14165693279', // Text this number Twilio registered numbers: Ash +14165693279
-      from: '+16476997021' // From a valid Twilio number
-    })
-    .then((message) => console.log(message.sid));
-};
-
+// Send SMS message using twilio
 var messageSMS = function(phone, message) {
   twilioClient.messages.create({
       body: message,
@@ -108,7 +90,7 @@ app.use(express.static("public"));
 app.use("./routes", routes(knex));
 
 
-// Home page
+// Home page sending from table dishes to the first page
 app.get("/", (req, res) => {
   req.session.user_id = generateRandomString();
 
@@ -122,20 +104,6 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-// Home page form submit which triggers twilio <<<<<<
-// app.get("/sms", (req, res) => {
-//   res.redirect("/")
-// });
-
-// app.post("/sms", (req, res) => {
-//   var customer = {
-//     name: req.body.fname,
-//     phone: req.body.phone
-//   };
-//   sendTextMessage(customer);
-//   sendOwnerMessage();
-// });
-
 //Create a 6 digit random Number <<<<
 function generateRandomString() {
   var generate = "";
@@ -148,6 +116,7 @@ function generateRandomString() {
   return generate;
 }
 
+// get information from kart
 app.get("/kart", (req, res) => {
 
   var userId = req.session.user_id;
@@ -164,7 +133,7 @@ app.get("/kart", (req, res) => {
 
 });
 
-
+// get info from user what dished he chosed and put on the kart
 app.post("/kart", (req, res) => {
 
   var userId = req.session.user_id;
@@ -221,13 +190,12 @@ app.post("/kart", (req, res) => {
 
 });
 
-
+// send sms message to the client and to the owner of the restaurant
 app.post("/checkout", (req, res) => {
 
   var userId = req.session.user_id;
-  console.log(req.body.name,req.body.phone,req.session.user_id);
 
-  knex.select('restaurants.name as rname, karts.quantity as kquant, dishes.name as dname, dishes.time_to_done as dtime, restaurants.phone as rphone')
+  knex.select('*')
     .from('karts')
     .join('dishes', 'dishes.id', 'karts.dishes_id')
     .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
@@ -235,39 +203,21 @@ app.post("/checkout", (req, res) => {
     .then(function(rows) {
       let results = rows
       let userTextSms = '';
-      console.log(rows);
+      for (let i = 0; i < rows.length; i++) {
+        userTextSms += 'Your order from ' + rows[i].name + ' includes: ' + rows[i].quantity + ' ' + rows[i].description + ' and will be already for pick-up in: ' + rows[i].time_to_done + '\n';
+        messageSMS(rows[i].phone, 'You have a order from ' + req.body.name + 'phone: ' + req.body.phone + ' includes: ' + rows[i].quantity, rows[i].description + '\n');
+      }
 
-      sendTextMessage(req.body.phone);
-      // for (let i = 0; i < rows.length; i++) {
-      //   userTextSms += 'Your order from ' + rows[i].rname + ' includes: ' + rows[i].kquant, rows[i].dname + ' and will be already for pick-up in: ' + rows[i].dtime + '\n';
-      //   messageSMS(rows[i].rphone, 'You have a order from ' + req.body.name + 'phone: ' + req.body.phone + ' includes: ' + rows[i].kquant, rows[i].dname + '\n');
-      // }
-
-      console.log(userTextSms);
-      // message to user
-      // messageSMS(req.body.phone, userTextSms);
+      messageSMS(req.body.phone, userTextSms);
 
     });
-  res.status('success');
+  // res.status('success');
 
   knex('users').where('id', req.session.users_id).del();
   knex('karts').where('id', req.session.karts_id).del();
 
   req.session.users_id = null;
-});
-
-// Delete dish from dishes
-app.post('/delete', (req, res) => {
-  return new Promise((resolve, err) => {
-      let deleId = req.body.dishId;
-      resolve(deleId);
-    })
-    .then((deleId) => {
-      return knex('karts').where('dishes_id', deleId).del();
-    })
-    .then(() => {
-      return res.redirect('/');
-    });
+  res.redirect('/');
 });
 
 app.listen(PORT, () => {

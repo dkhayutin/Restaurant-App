@@ -16,46 +16,35 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
       <img class="logo" src="/images/logo.png">
-      <button class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="nav-link" onclick="createKart();" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-shopping-cart"></i>
       </button>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
         <table>
           <div class="checkout-cart">
-            <tr class="table">
-              <td class="image-container">
-                <img class="small" src="https://www.nestleprofessional.us/sites/g/files/gfb131/f/styles/recipe/public/media/honey-citrus-chicken-minors-nestle-professional-food-service-recipe-540x400.jpg?itok=O987jk8X" alt="">
-              </td>
-              <td class="menu">
-                <div class="menu-info">
-                  <p >Item: Cheeseburger</p>
-                  <p>Quantity: 2</p>
-                  <p>Price: $19.99</p>
-                  <p>Total: $19.99</p>
-                </div>
-              </td>
-            </tr>
+
           </div>
           <tr>
             <td colspan="2">
-              <form method='POST' action='/sms'>
-                <input id='name' type='text' name='fname' placeholder='Name'>
+              <form method='POST' action='/checkout'>
+                <input id='name' type='text' name='name' placeholder='Name'>
                 <input id='phone' type='text' name='phone' placeholder='Phone Number'>
                 <input class="order-button" type="submit" name="" value="Pay By Cash">
                 <p>
                   <p>
-                <form action="/charge" method="POST">
+              </form>
+                <form action="/checkout" method="POST">
               <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="pk_test_LklcPkZ3Mra61WCY47f5uKPI"
-                data-amount="999"
+                data-amount="4297"
                 data-name="Demo Site"
                 data-description="Example charge"
                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                 data-locale="auto"
                 data-currency="cad">
               </script>
-            </form>
+
               </form>
             </td>
           </tr>
@@ -74,6 +63,8 @@
       <div class="carousel-inner">
         <div class="carousel-item active">
           <div class="row">
+
+
             <div class="col-4">
               <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
                 <form id="kart" action="/kart" method="post">
@@ -91,6 +82,7 @@
                   </div>
                 </div>
               </div>
+
 
             </div>
             <div class="col-4">
@@ -149,7 +141,7 @@
                         <p>Aromatic curry leaves and baghara spices bring a very special flavour to this four-way vegetable mix.</p>
                         <p>$ 41.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="4">
                         <input class="order" type="submit" name="" value="Add to Order">
                         </form>
                     </div>
@@ -169,7 +161,7 @@
                         <p>$ 12.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="5">
                         </form>
                     </div>
                   </div>
@@ -189,7 +181,7 @@
                         <p class='price'>$ 16.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="6">
                         </form>
                     </div>
                   </div>
@@ -213,7 +205,7 @@
                         <p>$ 25.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="7">
                         </form>
                     </div>
                   </div>
@@ -233,7 +225,7 @@
                         <p>$ 11.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="8">
                         </form>
                     </div>
                   </div>
@@ -253,7 +245,7 @@
                         <p class='price'>$ 33.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="9">
                         </form>
                     </div>
                   </div>
@@ -271,11 +263,11 @@
                   </div>
                   <div class="back">
                     <div>
-                        <input class="input-group-field" type="number" name="quantity" value="0">
-                        <input class="order" type="submit" name="" value="Add to Order">
                         <p>Tomatoes, peppers, onions, jalapeños, three cheeses, beef chilli and Guacamole (190 Cals)</p>
                         <p>$ 11.99</p>
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="10">
                         </form>
                     </div>
                   </div>
@@ -292,11 +284,11 @@
                   </div>
                   <div class="back">
                     <div>
-                        <input class="input-group-field" type="number" name="quantity" value="0">
-                        <input class="order" type="submit" name="" value="Add to Order">
                         <p>Green beans, red onion, edamame, dried cranberries, shredded beets & feta tossed in a sweet onion vinaigrette.</p>
                         <p>$ 14.99</p>
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
+                        <input type="hidden" id="disheId" name="disheId" value="11">
                         </form>
                     </div>
                   </div>
@@ -317,7 +309,7 @@
                         <p>$ 15.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
-                        <input type="hidden" id="disheId" name="disheId" value="1">
+                        <input type="hidden" id="disheId" name="disheId" value="12">
                         </form>
                     </div>
                   </div>
