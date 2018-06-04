@@ -38,8 +38,6 @@ var accountSid = 'AC12bd3680ab7bcacdea48e1728c8788e2'; // Your Account SID from 
 var authToken = '690e49b366be07f27288491d29bdd4b1'; // Your Auth Token from www.twilio.com/console
 var twilioClient = new twilio(accountSid, authToken);
 
-
-
 // SMS TO CUSTOMER Twilio
 var sendTextMessage = function(customer) {
   twilioClient.messages.create({
@@ -48,8 +46,8 @@ var sendTextMessage = function(customer) {
       from: '+16476997021' // From a valid Twilio number
     })
     .then((message) => console.log(message.sid));
-
 };
+
 // SMS TO OWNER Twilio
 var sendOwnerMessage = function() {
   twilioClient.messages.create({
@@ -113,6 +111,14 @@ app.use("./routes", routes(knex));
 // Home page
 app.get("/", (req, res) => {
   req.session.user_id = generateRandomString();
+
+  knex('dishes')
+    .select("*")
+    .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
+    .then(function(dishes) {
+      res.json(dishes);
+    });
+
   res.render("index");
 });
 
@@ -149,8 +155,8 @@ app.get("/kart", (req, res) => {
     .select("*")
     .join('dishes', 'dishes.id', 'karts.dishes_id')
     .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
-    .where('users_id', '=', userId)
-    .where('quantity', '!=', 0)
+    .where('users_id', userId)
+    .whereNot('quantity', 0)
     .then(function(dishes) {
       console.log(dishes);
       res.json(dishes);
@@ -160,99 +166,95 @@ app.get("/kart", (req, res) => {
 
 
 app.post("/kart", (req, res) => {
-  console.log('received POST to /kart');
-
 
   var userId = req.session.user_id;
-
   var dishId = Number(req.body.disheId);
   var quant = Number(req.body.quantity);
 
-  knex
-    .select('*')
-    .from('karts')
-    .where('users_id', '=', userId)
-    .where('dishes_id', '=', dishId)
-    .then(function(kart) {
+  if (!quant) {
+    var query = knex("karts")
+      .del()
+      .where({
+        users_id: userId
+      })
+      .where({
+        dishes_id: dishId
+      });
+    query.exec();
 
-      if (kart.length === 0) {
-        knex('karts')
-          .insert([{
-            users_id: userId,
-            dishes_id: dishId,
-            quantity: quant
-          }])
-          .catch(function(error) {
-            console.error(error)
-          });
+  } else {
 
-      } else {
-        knex('karts')
-          .where('users_id', '=', userId)
-          .where('dishes_id', '=', dishId)
-          .update('quantity', quant)
-          .then(function() {
-            knex.destroy();
-          })
-          .catch(function(error) {
-            console.error(error)
-          });
-      }
+    knex
+      .select('*')
+      .from('karts')
+      .where('users_id', '=', userId)
+      .where('dishes_id', '=', dishId)
+      .then(function(kart) {
+        if (kart.length === 0) {
+          knex('karts')
+            .insert([{
+              users_id: userId,
+              dishes_id: dishId,
+              quantity: quant
+            }])
+            .catch(function(error) {
+              console.error(error)
+            });
 
-    })
-    // })
-    .catch(function(error) {
-      console.error(error)
-    });
+        } else {
 
-  knex('karts')
-  .where('users_id', '=', userId)
-  .where('dishes_id', '=', dishId)
-  .where('quantity', '=', 0).del();
+          knex('karts')
+            .update('quantity', quant)
+            .where('users_id', '=', userId)
+            .where('dishes_id', '=', dishId)
+            .catch(function(error) {
+              console.error(error)
+            });
+        }
+      })
+      .catch(function(error) {
+        console.error(error)
+      });
+  }
 
   return;
-  // return $kartItem;
 
 });
 
 
-app.put("/checkout", (req, res) => {
+app.post("/checkout", (req, res) => {
 
-  knex.select('dishes.name dname, dishes.time_to_done dtime, dishes.price dprice, karts.quantity kquant, restaurants.name rname, restaurants.phone rphone')
+  var userId = req.session.user_id;
+  console.log(req.body.name,req.body.phone,req.session.user_id);
+
+  knex.select('restaurants.name as rname, karts.quantity as kquant, dishes.name as dname, dishes.time_to_done as dtime, restaurants.phone as rphone')
     .from('karts')
     .join('dishes', 'dishes.id', 'karts.dishes_id')
     .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
-    .where('karts.users_id', '=', req.session.users_id)
+    .where({'karts.users_id': userId})
     .then(function(rows) {
       let results = rows
       let userTextSms = '';
+      console.log(rows);
 
-      for (let i = 0; i < rows.length; i++) {
-        userTextSms += 'Your order from ' + rows[i].rname + ' includes: ' + rows[i].kquant, rows[i].dname + ' and will be already for pick-up in: ' + rows[i].dtime + '\n';
-        messageSMS(rows[i].rphone, 'You have a order from ' + req.body.name + 'phone: ' + req.body.phone + ' includes: ' + rows[i].kquant, rows[i].dname + '\n');
-      }
+      sendTextMessage(req.body.phone);
+      // for (let i = 0; i < rows.length; i++) {
+      //   userTextSms += 'Your order from ' + rows[i].rname + ' includes: ' + rows[i].kquant, rows[i].dname + ' and will be already for pick-up in: ' + rows[i].dtime + '\n';
+      //   messageSMS(rows[i].rphone, 'You have a order from ' + req.body.name + 'phone: ' + req.body.phone + ' includes: ' + rows[i].kquant, rows[i].dname + '\n');
+      // }
+
+      console.log(userTextSms);
       // message to user
-      messageSMS(req.body.phone, userTextSms);
+      // messageSMS(req.body.phone, userTextSms);
 
     });
   res.status('success');
-
 
   knex('users').where('id', req.session.users_id).del();
   knex('karts').where('id', req.session.karts_id).del();
 
   req.session.users_id = null;
 });
-
-
-var messageSMS = function(phone, message) {
-  twilioClient.messages.create({
-      body: message,
-      to: phone,
-      from: '+16476997021'
-    })
-    .then((message) => console.log(message.sid));
-}
 
 // Delete dish from dishes
 app.post('/delete', (req, res) => {
@@ -271,3 +273,4 @@ app.post('/delete', (req, res) => {
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
