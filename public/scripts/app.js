@@ -49,25 +49,27 @@ function createDish(dishes) {
 };
 
 
-// function createKart(obj) {
-$(() => {
+function createKart(obj) {
+// $(() => {
   $.ajax({
     method: "GET",
-    url: "kart",
+    url: "/kart",
     }).done((dishes) => {
+      $('.checkout-cart').empty();
+      for(dish of dishes) {
     // success: function(dishes) {
-      console.log(dishes);
-      for (let i = 0; i < dishes.length; i++) {
+      // console.log(dishes.length);
+      // for (let i = 0; i < dishes.length; i++) {
         var $dish = (`
           <tr class="table">
             <td class="image-container">
-              <img class="small" src="${dishes.photo}" alt="">
+              <img class="small" src="${dish.photo}" alt="">
             </td>
             <td class="menu">
               <div class="menu-info">
-                <p >${dishes.name}</p>
-                <p>Quantity: ${dishes.quantity}</p>
-                <p>Total: ${dishes.price * dishes.quantity}</p>
+                <p >${dish.name}</p>
+                <p>Quantity: ${dish.quantity}</p>
+                <p>Total: ${dish.price * dish.quantity}</p>
               </div>
             </td>
           </tr>
@@ -81,13 +83,13 @@ $(() => {
       // return $dish;
 
     })
-  })
+  // })
+}
 
-
-[{"id":1,"users_id":"1upbFzM","quantity":234,"dishes_id":1,
-"name":"Pizza Pizza","photo":"httpX","description":null,
-"time_to_done":null,"type":null,"price":null,"restaurants_id":1,
-"phone":"6472033511"}]
+// [{"id":1,"users_id":"1upbFzM","quantity":234,"dishes_id":1,
+// "name":"Pizza Pizza","photo":"httpX","description":null,
+// "time_to_done":null,"type":null,"price":null,"restaurants_id":1,
+// "phone":"6472033511"}]
 
 // }
 
@@ -147,16 +149,23 @@ $(() => {
 // //   });
 // // }
 
-// // // Read of control the new tweeters
-$(document).ready(function() {
-
+// // // // Read of control the new tweeters
+// $(document).ready(function() {
 
   // loadDishes();
 
-  //   // $(".kart").click(addToKart);
-  //   $('#kart').on('submit', addToKart);
-  //   $("button").click(function() {
-  //     console.log("hello world");
-  //   });
+    // $(".kart").click(addToKart);
+    // $('#compose').on('submit', handleComposeSubmit);
+    // $('#kart').on('submit', createKart);
+    // $("button").click(function() {
+    //   createKart();
+    // });
 
-});
+// });
+// $(document).ready(function() {
+//   $('#button').click(function() {
+//         createKart();
+//   });
+// });
+
+

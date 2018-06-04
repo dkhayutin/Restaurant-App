@@ -31,20 +31,20 @@ module.exports = (knex) => {
   //     });
   // });
 
-router.get("/kart", (req, res) => {
+// router.get("/kart", (req, res) => {
 
-  var userId = req.session.user_id;
-  knex('karts')
-    .select("*")
-    .join('dishes', 'dishes.id', 'karts.dishes_id')
-    .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
-    .where('users_id', '=' , userId)
-    .then(function(dishes) {
-      console.log(dishes);
-      res.json(dishes);
-    });
+//   var userId = req.session.user_id;
+//   knex('karts')
+//     .select("*")
+//     .join('dishes', 'dishes.id', 'karts.dishes_id')
+//     .join('restaurants', 'restaurants.id', 'dishes.restaurants_id')
+//     .where('users_id', '=' , userId)
+//     .then(function(dishes) {
+//       console.log(dishes);
+//       res.json(dishes);
+//     });
 
-});
+// });
 
   return router;
 }
