@@ -15,10 +15,8 @@
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
-      <p class="title-one">Because you're belly</p>
       <img class="logo" src="/images/logo.png">
-      <p class="title-two">Needs A Friend</p>
-      <button class="nav-link" onclick=“createKart();” href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <button class="nav-link" onclick="createKart();" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="fas fa-shopping-cart"></i>
       </button>
       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -46,8 +44,9 @@
                 <input class="order-button" type="submit" name="" value="Pay By Cash">
                 <p>
                   <p>
-                <form action="/charge" method="POST">
-              <script
+              </form>
+              <form action="/charge" method="POST">
+                <script
                 src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                 data-key="pk_test_LklcPkZ3Mra61WCY47f5uKPI"
                 data-amount="999"
@@ -56,8 +55,7 @@
                 data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
                 data-locale="auto"
                 data-currency="cad">
-              </script>
-            </form>
+                </script>
               </form>
             </td>
           </tr>
@@ -104,7 +102,7 @@
                   </div>
                   <div class="back">
                     <div>
-                        <p>Hand-rolled prawn, mango + avocado sushi. Topped with our homemade sriracha mayonnaise for spice, sprinkle of black sesame + unagi maple sauce for sweetness</p>
+                        <p>Hand-rolled prawn, mango + avocado sushi. Topped with our homemade sriracha mayonnaise and unagi maple sauce for sweetness</p>
                         <p>$ 21.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
@@ -187,7 +185,7 @@
                   </div>
                   <div class="back">
                     <div>
-                        <p>A rich broth made with sherry and a blend of sweet yellow and white onions. Baked with a toasted crouton and then topped with pizza mozzarella, cheddar, feta and parmesan.</p>
+                        <p>A rich broth made with sherry, sweet yellow and white onions. Baked with a toasted crouton and then topped with feta and parmesan.</p>
                         <p class='price'>$ 16.99</p>
                         <input class="input-group-field" type="number" name="quantity" value="0">
                         <input class="order" type="submit" name="" value="Add to Order">
@@ -273,10 +271,10 @@
                   </div>
                   <div class="back">
                     <div>
-                        <input class="input-group-field" type="number" name="quantity" value="0">
-                        <input class="order" type="submit" name="" value="Add to Order">
                         <p>Tomatoes, peppers, onions, jalapeños, three cheeses, beef chilli and Guacamole (190 Cals)</p>
                         <p>$ 11.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
                         <input type="hidden" id="disheId" name="disheId" value="1">
                         </form>
                     </div>
@@ -294,10 +292,10 @@
                   </div>
                   <div class="back">
                     <div>
-                        <input class="input-group-field" type="number" name="quantity" value="0">
-                        <input class="order" type="submit" name="" value="Add to Order">
                         <p>Green beans, red onion, edamame, dried cranberries, shredded beets & feta tossed in a sweet onion vinaigrette.</p>
                         <p>$ 14.99</p>
+                        <input class="input-group-field" type="number" name="quantity" value="0">
+                        <input class="order" type="submit" name="" value="Add to Order">
                         <input type="hidden" id="disheId" name="disheId" value="1">
                         </form>
                     </div>
