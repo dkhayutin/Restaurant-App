@@ -9,11 +9,11 @@ function createKart(obj) {
 
   $.ajax({
     method: "GET",
-    url: "/kart",
-    }).done((dishes) => {
-      $('.checkout-cart').empty();
-      for(dish of dishes) {
-        var $dish = (`
+    url: "/api/kart",
+  }).done((dishes) => {
+    $('.checkout-cart').empty();
+    for (dish of dishes) {
+      var $dish = (`
           <tr class="table">
             <td class="image-container">
               <img class="small" src="${dish.photo}" alt="">
@@ -27,40 +27,7 @@ function createKart(obj) {
             </td>
           </tr>
         `);
-        $("<div>").append($dish).appendTo($(".checkout-cart"));
-      }
-    })
-
+      $("<div>").append($dish).appendTo($(".checkout-cart"));
+    }
+  })
 }
-
-$(() => {
-  $.ajax({
-    method: "GET",
-    url: "/",
-    }).done((dishes) => {
-      for(dish of dishes) {
-      var $dish = (`
-    <div class="col-4">
-     <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
-      <form id="kart" action="/kart" method="post">
-      <div class="flipper">
-        <div class="front">
-        <img src=${dish.photo}>
-        </div>
-        <div class="back">
-            <p>${dish.description}</p>
-            <p>$ ${dish.price}</p>
-            <input class="input-group-field" type="number" name="quantity" value="0">
-            <input class="order" type="submit" name="" value="Add to Order">
-            <input type="hidden" id="disheId" name="disheId" value="${dish.id}">
-            </form>
-        </div>
-      </div>
-    </div>
-        `);
-        $("<div>").append($dish).appendTo($(".carousel-item active"));
-  }
-});;
-});
-
-
