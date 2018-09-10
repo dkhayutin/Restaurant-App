@@ -1,29 +1,17 @@
 # Restaurant App
 
-## Project restaurant pick up
-
-This is a mid term project do to LightHouse Labs.
-
+Food Xpress is a single page restaurant application which is designed to allow users to order food online and pay with the Stripe Payment service, or select cash pick up. Food Xpress also implements the Twilio API so that users and restaurant owners can receive a text message notifying that their order is being prepared.
 
 ## Getting Started
 
-1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the .env file with your correct local information
-3. Install dependencies: `npm i`
-4. Fix to binaries for sass: `npm rebuild node-sass`
-5. Run migrations: `npm run knex migrate:latest`
-  - Check the migrations folder to see what gets created in the DB
-6. Run the seed: `npm run knex seed:run`
-  - Check the seeds file to see what gets seeded in the DB
-7. Run the server: `npm run local`
-8. Visit `http://localhost:8080/`
+- Install dependencies: `npm i`
+- Run the server: `npm run local`
+- Visit `http://localhost:8080/`
 
 
 ## Dependencies
 
 - Node 5.10.x or above
-- NPM 3.8.x or above
-- morgan
 - knex
 - node-sass-middleware
 - twilio
